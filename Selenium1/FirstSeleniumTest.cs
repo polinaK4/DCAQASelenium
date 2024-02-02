@@ -1,61 +1,32 @@
-﻿using NUnit.Framework;
+﻿using Module1;
+using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
 namespace Selenium1
 {
-    public class FirstSeleniumTest
+    public class FirstSeleniumTest : BaseTest
     {
-        private IWebDriver driver;
-
-        [OneTimeSetUp]
-        public void OneTimeSetup()
-        {
-            driver = new ChromeDriver();
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-            driver.Navigate().GoToUrl("https://www.saucedemo.com/");
-        }
-
         [Test]
         public void UnsuccessfulLoginWithEmptyCredentials()
         {
-            IWebElement buttonLogin = driver.FindElement(By.XPath("//*[@id='login-button']"));
-            buttonLogin.Click();
+            Login("", "");
             ClassicAssert.AreEqual("Epic sadface: Username is required", GetLoginErrorText());
         }
 
         [Test]
         public void UnsuccessfulLoginWithInvalidCredentials()
         {
-            IWebElement fieldUsername = driver.FindElement(By.XPath("//*[@id='user-name']"));
-            fieldUsername.SendKeys("invalid_user");
-            IWebElement fieldPassword = driver.FindElement(By.XPath("//*[@id='password']"));
-            fieldPassword.SendKeys("invalid_password");
-            IWebElement buttonLogin = driver.FindElement(By.XPath("//*[@id='login-button']"));
-            buttonLogin.Click();
+            Login("invalid_user", "invalid_password");
             ClassicAssert.AreEqual("Epic sadface: Username and password do not match any user in this service", GetLoginErrorText());
         }
 
         [Test]
         public void LoginWithValidCredentials()
         {
-            IWebElement fieldUsername = driver.FindElement(By.XPath("//*[@id='user-name']"));
-            fieldUsername.SendKeys("standard_user");
-            IWebElement fieldPassword = driver.FindElement(By.XPath("//*[@id='password']"));
-            fieldPassword.SendKeys("secret_sauce");
-            IWebElement buttonLogin = driver.FindElement(By.XPath("//*[@id='login-button']"));
-            buttonLogin.Click();
-
-            string pageURL = driver.Url;
-            ClassicAssert.AreEqual("https://www.saucedemo.com/inventory.html", pageURL);
-
-            IWebElement linkProduct = driver.FindElement(By.XPath("//*[@id='item_4_title_link']/div"));
-            linkProduct.Click();
+            Login("standard_user", "secret_sauce");
+            VerifyUrl("https://www.saucedemo.com/inventory.html");
+            OpenProduct("//*[@id='item_4_title_link']/div");
 
             IWebElement nameSauceLabsBackpackProduct = driver.FindElement(By.XPath("//*[@class='inventory_details_name large_size']"));
             string sauceLabsBackpackText = nameSauceLabsBackpackProduct.Text;
@@ -73,12 +44,6 @@ namespace Selenium1
             IWebElement imageSauceLabsBackpackProduct = driver.FindElement(By.XPath("//*[@class='inventory_details_img_container']/img"));
             string scrImageSauceLabsBackpack = imageSauceLabsBackpackProduct.GetAttribute("src");
             ClassicAssert.AreEqual("https://www.saucedemo.com/static/media/sauce-backpack-1200x1500.0a0b85a3.jpg", scrImageSauceLabsBackpack);
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            driver.Quit();
         }
 
         private string GetLoginErrorText()
