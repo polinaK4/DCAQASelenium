@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
 namespace Module1
 {
@@ -12,7 +11,8 @@ namespace Module1
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            driver = new ChromeDriver();
+            //driver = BrowserFactory.GetDriver(BrowserType.Chrome);
+            driver = BrowserFactory.GetDriver(BrowserType.Firefox);
         }
 
         [SetUp]
@@ -24,7 +24,7 @@ namespace Module1
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            driver.Quit();
+            BrowserFactory.CloseDriver();
         }
 
         public void Login(string username, string password)
