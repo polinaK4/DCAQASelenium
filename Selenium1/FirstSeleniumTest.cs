@@ -5,6 +5,8 @@ using OpenQA.Selenium;
 
 namespace Selenium1
 {
+    [TestFixture]
+    [Parallelizable(ParallelScope.Fixtures)]
     public class FirstSeleniumTest : BaseTest
     {
         [Test]

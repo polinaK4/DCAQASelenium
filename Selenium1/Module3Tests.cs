@@ -6,6 +6,8 @@ using System.Globalization;
 
 namespace Module1
 {
+    [TestFixture]
+    [Parallelizable(ParallelScope.Fixtures)]
     public class Module3Tests : BaseTest
     {
         [Test]
@@ -30,16 +32,13 @@ namespace Module1
             Login("standard_user", "secret_sauce");
             VerifyUrl("https://www.saucedemo.com/inventory.html");
             OpenProduct("//*[@id='item_4_title_link']/div");
-            Thread.Sleep(2000);
             ProductDetailsAddToCart("//*[@id='add-to-cart-sauce-labs-backpack']");
-            Thread.Sleep(2000);
             VerifyCartCounter("1");
         }
 
         [Test]
         public void RemoveProductFromCart()
         {
-            Thread.Sleep(2000);
             Login("standard_user", "secret_sauce");
             VerifyUrl("https://www.saucedemo.com/inventory.html");
             OpenProduct("//*[@id='item_0_title_link']/div");
