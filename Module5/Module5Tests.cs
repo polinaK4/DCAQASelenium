@@ -92,14 +92,6 @@ namespace Module5
             ScrollAndOpen("//a[contains(@href,'/checkboxes')]");
             IWebElement checkbox1 = driver.FindElement(By.XPath("//*[@id='checkboxes']/input[1]"));
             checkbox1.Click();
-
-        }
-
-        private void ScrollAndOpen(string linkXpath)
-        {
-            IWebElement link = driver.FindElement(By.XPath(linkXpath));
-            new Actions(driver).ScrollToElement(link).Perform();
-            link.Click();
         }
 
         private void Login(string username, string password)
@@ -110,12 +102,6 @@ namespace Module5
             fieldPassword.SendKeys(password);
             IWebElement buttonLogin = driver.FindElement(By.XPath("//*[@id='login']/button"));
             buttonLogin.Click();
-        }
-
-        public void VerifyUrl(string url)
-        {
-            string pageURL = driver.Url;
-            ClassicAssert.AreEqual(url, pageURL);
         }
     }
 }
