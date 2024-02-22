@@ -1,8 +1,7 @@
 ﻿using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.Extensions;
 
 namespace Module5
 {
@@ -13,8 +12,8 @@ namespace Module5
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            //driver = BrowserFactory.GetDriver(BrowserType.Chrome);
-            driver = BrowserFactory.GetDriver(BrowserType.Firefox);
+            driver = BrowserFactory.GetDriver(BrowserType.Chrome);
+            //driver = BrowserFactory.GetDriver(BrowserType.Firefox);
         }
 
         [SetUp]
@@ -29,10 +28,10 @@ namespace Module5
             BrowserFactory.CloseDriver();
         }
 
-        public void ScrollAndOpen(string linkXpath)
+        public void ScrollAndOpenLink(string linkXpath)
         {
-            IWebElement link = driver.FindElement(By.XPath(linkXpath));            
-            new Actions(driver).ScrollToElement(link).Perform();            
+            IWebElement link = driver.FindElement(By.XPath($"//a[contains(@href,'{linkXpath}')]"));
+            driver.ExecuteJavaScript("arguments[0].scrollIntoView(true);", link);
             link.Click();
         }
 

@@ -27,7 +27,10 @@ namespace Module5
                     driver = new ChromeDriver();
                     break;
                 case BrowserType.Firefox:
-                    driver = new FirefoxDriver();
+                    FirefoxOptions options = new FirefoxOptions();
+                    options.SetPreference("network.http.phishy-userpass-length", 255);
+                    options.SetPreference("network.automatic-ntlm-auth.trusted-uris", "http://the-internet.herokuapp.com/basic_auth/");
+                    driver = new FirefoxDriver(options);
                     break;
                 default:
                     throw new NotSupportedException($"Browser type '{browserType}' is not supported.");

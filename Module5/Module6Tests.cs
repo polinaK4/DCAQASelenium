@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System.Globalization;
 
@@ -12,7 +13,7 @@ namespace Module5
         [Test]
         public void HandlingSimpleAlert()
         {
-            ScrollAndOpen("//a[contains(@href,'/javascript_alerts')]");
+            ScrollAndOpenLink("/javascript_alerts");
             IWebElement buttonAlert = driver.FindElement(By.XPath("//*[@id='content']/div/ul/li[1]/button"));
             buttonAlert.Click();
             IAlert simpleAlert = driver.SwitchTo().Alert();
@@ -23,7 +24,7 @@ namespace Module5
         [Test]
         public void HandlingConfirmationAlert()
         {
-            ScrollAndOpen("//a[contains(@href,'/javascript_alerts')]");
+            ScrollAndOpenLink("/javascript_alerts");
             IWebElement buttonAlert = driver.FindElement(By.XPath("//*[@id='content']/div/ul/li[2]/button"));
             buttonAlert.Click();
             IAlert confirmationAlert = driver.SwitchTo().Alert();
@@ -34,7 +35,7 @@ namespace Module5
         [Test]
         public void HandlingPromptAlert()
         {
-            ScrollAndOpen("//a[contains(@href,'/javascript_alerts')]");
+            ScrollAndOpenLink("/javascript_alerts");
             IWebElement buttonAlert = driver.FindElement(By.XPath("//*[@id='content']/div/ul/li[3]/button"));
             buttonAlert.Click();
             IAlert promptAlert = driver.SwitchTo().Alert();
@@ -46,7 +47,7 @@ namespace Module5
         [Test]
         public void SwitchingToAnIframe()
         {
-            ScrollAndOpen("//a[contains(@href,'/frames')]");
+            ScrollAndOpenLink("/frames");
             IWebElement iphrameLink = driver.FindElement(By.XPath("//a[contains(@href,'/iframe')]"));
             iphrameLink.Click();
             IWebElement iframeElement = driver.FindElement(By.XPath("//*[@id='mce_0_ifr']"));
@@ -59,7 +60,7 @@ namespace Module5
         [Test]
         public void InteractingWithSelectElement()
         {
-            ScrollAndOpen("//a[contains(@href,'/dropdown')]");
+            ScrollAndOpenLink("/dropdown");
             SelectElement select = new SelectElement(driver.FindElement(By.XPath("//*[@id='dropdown']")));
             select.SelectByText("Option 1");
             string selectedOption = select.SelectedOption.Text;
@@ -69,7 +70,7 @@ namespace Module5
         [Test]
         public void InteractingWithCheckboxElement()
         {
-            ScrollAndOpen("//a[contains(@href,'/checkboxes')]");
+            ScrollAndOpenLink("/checkboxes");
             IWebElement checkbox = driver.FindElement(By.XPath("//*[@id='checkboxes']/input[1]"));
             checkbox.Click();
             bool isChecked = checkbox.Selected;
@@ -79,9 +80,11 @@ namespace Module5
         [Test]
         public void InteractingWithRangeElement()
         {
-            ScrollAndOpen("//a[contains(@href,'/horizontal_slider')]");
+            ScrollAndOpenLink("/horizontal_slider");
             IWebElement rangeInput = driver.FindElement(By.XPath("//input[contains(@type,'range')]"));
-            rangeInput.SendKeys(Keys.ArrowRight);
+            new Actions(driver).DragAndDrop(rangeInput, driver.FindElement(By.XPath("//span[@id='range']"))).Perform();
+            rangeInput.Click();
+            //rangeInput.SendKeys(Keys.ArrowRight);
             string rangeValue = rangeInput.GetAttribute("value");
             ClassicAssert.AreEqual("0.5", rangeValue);
         }
@@ -89,7 +92,7 @@ namespace Module5
         [Test]
         public void InteractingWithTTextInputElement()
         {
-            ScrollAndOpen("//a[contains(@href,'/inputs')]");
+            ScrollAndOpenLink("/inputs");
             IWebElement textInput = driver.FindElement(By.XPath("//input[contains(@type,'number')]"));
             textInput.SendKeys("123");
             string inputValue = textInput.GetAttribute("value");
@@ -99,8 +102,8 @@ namespace Module5
         [Test]
         public void InteractingWithBasicAuth()
         {
-            ScrollAndOpen("//a[contains(@href,'/basic_auth')]");
-            driver.Navigate().GoToUrl("http://admin:admin@the-internet.herokuapp.com/basic_auth");
+            ScrollAndOpenLink("/basic_auth");
+            driver.Navigate().GoToUrl("http://admin:admin@the-internet.herokuapp.com/basic_auth/");
             IWebElement successAuth = driver.FindElement(By.XPath("//*[@id='content']/div/p"));
             string successAuthText = successAuth.Text;
             ClassicAssert.AreEqual("Congratulations! You must have the proper credentials.", successAuthText);
@@ -114,7 +117,7 @@ namespace Module5
             DirectoryInfo dirInfo = new DirectoryInfo(downloadPath);
             var watcher = new FileSystemWatcher(downloadPath);
 
-            ScrollAndOpen("//a[contains(@href,'/download')]");
+            ScrollAndOpenLink("/download");
             IWebElement firstFileLink = driver.FindElement(By.XPath("//*[@id='content']/div/a[1]"));
             string firstFileLinkText = firstFileLink.Text;
             firstFileLink.Click();
@@ -130,7 +133,7 @@ namespace Module5
         [Test]
         public void ValidateDataSortedByFirstName()
         {
-            ScrollAndOpen("//a[contains(@href,'/tables')]");
+            ScrollAndOpenLink("/tables");
             IWebElement header = driver.FindElement(By.XPath("//*[@id='table1']/thead/tr/th[2]"));
             header.Click();
             var cells = driver.FindElements(By.XPath("//*[@id='table1']/tbody/tr/td[2]"));
@@ -140,7 +143,7 @@ namespace Module5
         [Test]
         public void TestSortingToggleFunctionalityForLastName()
         {
-            ScrollAndOpen("//a[contains(@href,'/tables')]");
+            ScrollAndOpenLink("/tables");
             IWebElement header = driver.FindElement(By.XPath("//*[@id='table1']/thead/tr/th[1]"));
             header.Click();
             var cells = driver.FindElements(By.XPath("//*[@id='table1']/tbody/tr/td[1]"));
@@ -153,7 +156,7 @@ namespace Module5
         [Test]
         public void ValidateRowData()
         {
-            ScrollAndOpen("//a[contains(@href,'/tables')]");
+            ScrollAndOpenLink("/tables");
             var cells = driver.FindElements(By.XPath("//*[@id='table1']/tbody/tr[1]/td[position()<6]"));
             ClassicAssert.AreEqual("Smith", cells[0].Text);
             ClassicAssert.AreEqual("John", cells[1].Text);
@@ -165,7 +168,7 @@ namespace Module5
         [Test]
         public void TestNavigationAndReturnToPage()
         {
-            ScrollAndOpen("//a[contains(@href,'/tables')]");
+            ScrollAndOpenLink("/tables");
             IWebElement header = driver.FindElement(By.XPath("//*[@id='table1']/thead/tr/th[2]"));
             header.Click();
             driver.Navigate().GoToUrl("https://the-internet.herokuapp.com/checkboxes");
@@ -178,7 +181,7 @@ namespace Module5
         [Test]
         public void ValidateDataSortedByDueColumn()
         {
-            ScrollAndOpen("//a[contains(@href,'/tables')]");
+            ScrollAndOpenLink("/tables");
             IWebElement header = driver.FindElement(By.XPath("//*[@id='table1']/thead/tr/th[4]"));
             header.Click();
             List<IWebElement> cellsList = driver.FindElements(By.XPath("//*[@id='table1']/tbody/tr/td[4]")).ToList();
