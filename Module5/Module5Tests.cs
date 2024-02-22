@@ -16,7 +16,7 @@ namespace Module5
         {
             string originalWindow = driver.CurrentWindowHandle;
             ClassicAssert.AreEqual(driver.WindowHandles.Count, 1);
-            ScrollAndOpen("//a[contains(@href,'/windows')]");
+            ScrollAndOpenLink("/windows");
             IWebElement clickHereLink = driver.FindElement(By.XPath("//*[@id='content']/div/a"));
             clickHereLink.Click();
             new WebDriverWait(driver, TimeSpan.FromSeconds(20)).Until(wd => wd.WindowHandles.Count == 2);
@@ -39,7 +39,7 @@ namespace Module5
         [Test]
         public void NavigateBackandForward()
         {
-            ScrollAndOpen("//a[contains(@href,'/login')]");
+            ScrollAndOpenLink("/login");
             Login("tomsmith", "SuperSecretPassword!");
             VerifyUrl("https://the-internet.herokuapp.com/secure");
             driver.Navigate().Back();
@@ -52,7 +52,7 @@ namespace Module5
         [Test]
         public void NavigateToURLAndRefresh()
         {
-            ScrollAndOpen("//a[contains(@href,'/dynamic_loading')]");
+            ScrollAndOpenLink("/dynamic_loading");
             IWebElement example1 = driver.FindElement(By.XPath("//*[@id='content']/div/a[1]"));
             example1.Click();
             IWebElement example1Start = driver.FindElement(By.XPath("//*[@id='start']/button"));
@@ -68,7 +68,7 @@ namespace Module5
         [Test]
         public void MaximizeWindowAndChangeWindowSize()
         {
-            ScrollAndOpen("//a[contains(@href,'/large')]");
+            ScrollAndOpenLink("/large");
             IWebElement poweredByElementalSelenium = driver.FindElement(By.XPath("//*[@id='page-footer']/div/div/a"));
             new Actions(driver).ScrollToElement(poweredByElementalSelenium).Perform();
             driver.Manage().Window.Maximize();
@@ -89,17 +89,9 @@ namespace Module5
             ChromeOptions options = new ChromeOptions();
             options.AddArgument("--headless");
             driver.Navigate().GoToUrl("http://the-internet.herokuapp.com/");
-            ScrollAndOpen("//a[contains(@href,'/checkboxes')]");
+            ScrollAndOpenLink("/checkboxes");
             IWebElement checkbox1 = driver.FindElement(By.XPath("//*[@id='checkboxes']/input[1]"));
             checkbox1.Click();
-
-        }
-
-        private void ScrollAndOpen(string linkXpath)
-        {
-            IWebElement link = driver.FindElement(By.XPath(linkXpath));
-            new Actions(driver).ScrollToElement(link).Perform();
-            link.Click();
         }
 
         private void Login(string username, string password)
@@ -110,12 +102,6 @@ namespace Module5
             fieldPassword.SendKeys(password);
             IWebElement buttonLogin = driver.FindElement(By.XPath("//*[@id='login']/button"));
             buttonLogin.Click();
-        }
-
-        public void VerifyUrl(string url)
-        {
-            string pageURL = driver.Url;
-            ClassicAssert.AreEqual(url, pageURL);
         }
     }
 }

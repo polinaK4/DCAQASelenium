@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.Extensions;
 
 namespace Module5
 {
@@ -12,7 +12,8 @@ namespace Module5
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            driver = new ChromeDriver();
+            driver = BrowserFactory.GetDriver(BrowserType.Chrome);
+            //driver = BrowserFactory.GetDriver(BrowserType.Firefox);
         }
 
         [SetUp]
@@ -24,7 +25,20 @@ namespace Module5
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            driver.Quit();
+            BrowserFactory.CloseDriver();
+        }
+
+        public void ScrollAndOpenLink(string linkXpath)
+        {
+            IWebElement link = driver.FindElement(By.XPath($"//a[contains(@href,'{linkXpath}')]"));
+            driver.ExecuteJavaScript("arguments[0].scrollIntoView(true);", link);
+            link.Click();
+        }
+
+        public void VerifyUrl(string url)
+        {
+            string pageURL = driver.Url;
+            ClassicAssert.AreEqual(url, pageURL);
         }
     }
 }
