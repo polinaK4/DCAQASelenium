@@ -1,12 +1,8 @@
-﻿using NUnit.Framework;
+﻿using Module7.Pages.CheckboxesPage;
+using NUnit.Framework;
 using NUnit.Framework.Legacy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Module7
+namespace Module7.Tests
 {
     public class CheckboxesPageTests : BaseTest
     {
@@ -23,41 +19,41 @@ namespace Module7
         [Test]
         public void ToggleCheckbox()
         {
-            checkboxesPage.ClickCheckbox1();
-            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox1());
-            checkboxesPage.ClickCheckbox1();
-            ClassicAssert.AreEqual(false, checkboxesPage.IfSelectedCheckbox1());
+            checkboxesPage.ClickCheckbox("1");
+            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox("1"));
+            checkboxesPage.ClickCheckbox("1");
+            ClassicAssert.AreEqual(false, checkboxesPage.IfSelectedCheckbox("1"));
         }
 
         [Test]
         public void CheckBothCheckboxes()
         {
-            checkboxesPage.ClickCheckbox1();            
-            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox1());
-            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox2());
+            checkboxesPage.ClickCheckbox("1");            
+            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox("1"));
+            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox("2"));
         }
 
         [Test]
         public void UncheckBothCheckboxes()
         {
-            checkboxesPage.ClickCheckbox1();
-            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox1());
-            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox2());
-            checkboxesPage.ClickCheckbox1();
-            checkboxesPage.ClickCheckbox2();
-            ClassicAssert.AreEqual(false, checkboxesPage.IfSelectedCheckbox1());
-            ClassicAssert.AreEqual(false, checkboxesPage.IfSelectedCheckbox2());
+            checkboxesPage.ClickCheckbox("1");
+            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox("1"));
+            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox("2"));
+            checkboxesPage.ClickCheckbox("1");
+            checkboxesPage.ClickCheckbox("2");
+            ClassicAssert.AreEqual(false, checkboxesPage.IfSelectedCheckbox("1"));
+            ClassicAssert.AreEqual(false, checkboxesPage.IfSelectedCheckbox("2"));
         }
 
         [Test]
         public void ToggleCheckboxesRepeatedly()
         {
-            checkboxesPage.ClickCheckbox1();
-            checkboxesPage.ClickCheckbox1();
-            checkboxesPage.ClickCheckbox1();
-            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox1());
-            checkboxesPage.ClickCheckbox1();
-            ClassicAssert.AreEqual(false, checkboxesPage.IfSelectedCheckbox1());
+            checkboxesPage.ClickCheckbox("1");
+            checkboxesPage.ClickCheckbox("1");
+            checkboxesPage.ClickCheckbox("1");
+            ClassicAssert.AreEqual(true, checkboxesPage.IfSelectedCheckbox("1"));
+            checkboxesPage.ClickCheckbox("1");
+            ClassicAssert.AreEqual(false, checkboxesPage.IfSelectedCheckbox("1"));
         }
     }
 }

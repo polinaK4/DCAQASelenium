@@ -3,7 +3,7 @@ using NUnit.Framework.Legacy;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 
-namespace Module7
+namespace Module7.Tests
 {
     public abstract class BaseTest
     {
@@ -12,8 +12,8 @@ namespace Module7
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            //driver = BrowserFactory.GetDriver(BrowserType.Chrome);
-            driver = BrowserFactory.GetDriver(BrowserType.Firefox);
+            driver = BrowserFactory.GetDriver(BrowserType.Chrome);
+            //driver = BrowserFactory.GetDriver(BrowserType.Firefox);
         }
 
         [OneTimeTearDown]

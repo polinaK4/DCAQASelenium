@@ -1,23 +1,17 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Module7
+namespace Module7.Pages.Authorization
 {
-    public class LogOutPage
+    public class LogOutPage : BasePage
     {
-        private IWebDriver driver;
+        private string logoutButtonLocator = "//a[contains(@href,'/logout')]";
+        private IWebElement logoutButton => GetElement(By.XPath(logoutButtonLocator));
 
-        private readonly By logoutButton = By.XPath("//a[contains(@href,'/logout')]");
-
-        public LogOutPage(IWebDriver driver)
+        public LogOutPage(IWebDriver driver) :base(driver)
         {
-            this.driver = driver;
+            
         }
 
-        public void ClickLogoutButton() => driver.FindElement(logoutButton).Click();
+        public void ClickLogoutButton() => logoutButton.Click();
     }
 }

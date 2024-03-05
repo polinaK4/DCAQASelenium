@@ -1,7 +1,8 @@
-﻿using NUnit.Framework;
+﻿using Module7.Pages.Authorization;
+using NUnit.Framework;
 using NUnit.Framework.Legacy;
 
-namespace Module7
+namespace Module7.Tests
 {
     [TestFixture]
     public class AuthorizationTests : BaseTest

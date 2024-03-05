@@ -1,25 +1,20 @@
-﻿using OpenQA.Selenium;
+﻿using Module7.Pages;
+using OpenQA.Selenium;
 
-namespace Module7
+namespace Module7.Pages.CheckboxesPage
 {
-    public class CheckboxesPage
+    public class CheckboxesPage : BasePage
     {
-        private IWebDriver driver;
+        private string checkboxLocator = "//*[@id='checkboxes']/input[{0}]";
+        private IWebElement checkboxes(String index) => GetElement(By.XPath(String.Format(checkboxLocator, index)));
 
-        private readonly By checkbox1 = By.XPath("//*[@id='checkboxes']/input[1]");
-        private readonly By checkbox2 = By.XPath("//*[@id='checkboxes']/input[2]");
+        public CheckboxesPage(IWebDriver driver) : base(driver) 
+        { 
 
-        public CheckboxesPage(IWebDriver driver)
-        {
-            this.driver = driver;
         }
 
-        public void ClickCheckbox1() => driver.FindElement(checkbox1).Click();
+        public void ClickCheckbox(string id) => checkboxes(id).Click();
 
-        public void ClickCheckbox2() => driver.FindElement(checkbox2).Click();
-
-        public bool IfSelectedCheckbox1() => driver.FindElement(checkbox1).Selected;
-
-        public bool IfSelectedCheckbox2() => driver.FindElement(checkbox2).Selected;
+        public bool IfSelectedCheckbox(string id) => checkboxes(id).Selected;
     }
 }

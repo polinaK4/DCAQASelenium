@@ -1,27 +1,28 @@
-﻿using OpenQA.Selenium;
+﻿using Module7.Pages;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace Module7
+namespace Module7.Pages.DropdownPage
 {
-    public class DropdownPage
+    public class DropdownPage : BasePage
     {
-        private IWebDriver driver;
-
-        private readonly By dropdown = By.XPath("//*[@id='dropdown']");
-        private readonly By dropdownOptions = By.XPath("//*[@id='dropdown']/option");
-
-        public DropdownPage(IWebDriver driver)
+        private string dropdownLocator = "//*[@id='dropdown']";
+        private string dropdownOptionsLocator = "//*[@id='dropdown']/option";
+        private SelectElement dropdown => new SelectElement(GetElement(By.XPath(dropdownLocator)));
+        public List<IWebElement> dropdownOptions => GetListOfElements(By.XPath(dropdownOptionsLocator));
+        public DropdownPage(IWebDriver driver) : base(driver)
         {
-            this.driver = driver;
-        }
+           
+        }     
 
-        public SelectElement FindSelectElement() => new SelectElement(driver.FindElement(dropdown));
+        public void SelectDropdownOptionByText(string option) => dropdown.SelectByText(option);
 
-        public List<IWebElement> DropdownOptionsList() => driver.FindElements(dropdownOptions).ToList();      
+        public void SelectDropdownOptionByIndex(int index) => dropdown.SelectByIndex(index);
 
-        public void SelectDropdownOptionByText(string option) => FindSelectElement().SelectByText(option);
+        public string SelectedOptionText() => dropdown.SelectedOption.Text;
 
-        public void SelectDropdownOptionByIndex(int index) => FindSelectElement().SelectByIndex(index);
+        public string OptionTextByIndex(int index) => dropdownOptions[index].Text;
 
+        public int DropdownOptionsCount() => dropdownOptions.Count();
     }
 }

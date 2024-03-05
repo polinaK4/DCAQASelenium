@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+﻿using Module7.Pages.DropdownPage;
+using NUnit.Framework;
 using NUnit.Framework.Legacy;
-using OpenQA.Selenium;
 
-namespace Module7
+namespace Module7.Tests
 {
     public class DropdownPageTests : BaseTest
     {
@@ -20,7 +20,7 @@ namespace Module7
         public void SelectOptionFromDropdown()
         {
             dropdownPage.SelectDropdownOptionByText("Option 1");
-            string selectedOption1 = dropdownPage.FindSelectElement().SelectedOption.Text;
+            string selectedOption1 = dropdownPage.SelectedOptionText();
             ClassicAssert.AreEqual("Option 1", selectedOption1);
         }
 
@@ -28,31 +28,29 @@ namespace Module7
         public void SelectDifferentOptionsFromDropdown()
         {
             dropdownPage.SelectDropdownOptionByText("Option 1");
-            string selectedOption1 = dropdownPage.FindSelectElement().SelectedOption.Text;
+            string selectedOption1 = dropdownPage.SelectedOptionText();
             ClassicAssert.AreEqual("Option 1", selectedOption1);
             dropdownPage.SelectDropdownOptionByText("Option 2");
-            string selectedOption2 = dropdownPage.FindSelectElement().SelectedOption.Text;
+            string selectedOption2 = dropdownPage.SelectedOptionText();
             ClassicAssert.AreEqual("Option 2", selectedOption2);
         }
 
         [Test]
         public void ValidateDropdownOptions()
-        {
-            List<IWebElement> dropdownList = dropdownPage.DropdownOptionsList();
-            ClassicAssert.AreEqual("Please select an option", dropdownList[0].Text);
-            ClassicAssert.AreEqual("Option 1", dropdownList[1].Text);
-            ClassicAssert.AreEqual("Option 2", dropdownList[2].Text);
+        {            
+            ClassicAssert.AreEqual("Please select an option", dropdownPage.OptionTextByIndex(0));
+            ClassicAssert.AreEqual("Option 1", dropdownPage.OptionTextByIndex(1));
+            ClassicAssert.AreEqual("Option 2", dropdownPage.OptionTextByIndex(2));
         }
 
         [Test]
         public void SelectRandomOptionFromDropdown()
         {
-            List<IWebElement> dropdownList = dropdownPage.DropdownOptionsList();
             Random rand = new Random();
-            int randomIndex = rand.Next(1, dropdownList.Count);
+            int randomIndex = rand.Next(1, dropdownPage.DropdownOptionsCount());
             dropdownPage.SelectDropdownOptionByIndex(randomIndex);
-            string selectedOption = dropdownPage.FindSelectElement().SelectedOption.Text;
-            ClassicAssert.AreEqual(dropdownList[randomIndex].Text, selectedOption);
+            string selectedOption = dropdownPage.SelectedOptionText();
+            ClassicAssert.AreEqual(dropdownPage.OptionTextByIndex(randomIndex), selectedOption);
         }
     }
 }

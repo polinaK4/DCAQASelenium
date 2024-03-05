@@ -1,33 +1,30 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Module7
+namespace Module7.Pages.Authorization
 {
-    public class LoginPage
+    public class LoginPage : BasePage
     {
-        private IWebDriver driver;
+        private string usernameInputLocator = "//*[@id='username']";
+        private string passwordInputLocator = "//*[@id='password']";
+        private string loginButtonLocator = "//*[@id='login']/button";
+        private string topMessageLocator = "//*[@id='flash']";
+        private IWebElement usernameInput => GetElement(By.XPath(usernameInputLocator));
+        private IWebElement passwordInput => GetElement(By.XPath(passwordInputLocator));
+        private IWebElement loginButton => GetElement(By.XPath(loginButtonLocator));
+        private IWebElement topMessage => GetElement(By.XPath(topMessageLocator));
 
-        private readonly By usernameInput = By.XPath("//*[@id='username']");
-        private readonly By passwordInput = By.XPath("//*[@id='password']");
-        private readonly By loginButton = By.XPath("//*[@id='login']/button");
-        private readonly By topMessage = By.XPath("//*[@id='flash']");
-
-        public LoginPage(IWebDriver driver)
+        public LoginPage(IWebDriver driver) : base(driver)
         {
-            this.driver = driver;
+
         }
 
-        public void EnterUsername(string username) => driver.FindElement(usernameInput).SendKeys(username);
+        public void EnterUsername(string username) => usernameInput.SendKeys(username);
 
-        public void EnterPassword(string password) => driver.FindElement(passwordInput).SendKeys(password);
+        public void EnterPassword(string password) => passwordInput.SendKeys(password);
 
-        public void ClickLoginButton() => driver.FindElement(loginButton).Click();
+        public void ClickLoginButton() => loginButton.Click();
 
-        public string TopMessageText() => driver.FindElement(topMessage).Text;
+        public string TopMessageText() => topMessage.Text;
 
     }
 }
