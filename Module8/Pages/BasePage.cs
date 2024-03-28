@@ -1,4 +1,4 @@
-﻿using Module8.Tests;
+﻿using Module8.Helpers;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 

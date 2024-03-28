@@ -32,12 +32,12 @@ namespace Module8.Tests
             driver.Navigate().GoToUrl("https://booking.com/");
             searchElements = new SearchElements(driver);
             cookiesPopup = new CookiesPopup(driver);
-            dateSelector = new FromToDateSelector(driver);
+            //dateSelector = new FromToDateSelector(driver);
             staysPageFiltersPropertyRating = new StaysPageFilterPropertyRating(driver);
             staysCommonElements = new StaysCommonElements(driver);
             staysPageSorting = new StaysPageSorting(driver);
             staysPageFilterFacilities = new StaysPageFilterFacilities(driver);
-            staysPageHotelsResults = new StaysPageHotelsResults(driver);
+            //staysPageHotelsResults = new StaysPageHotelsResults(driver);
             staysPageSelectedHotelDetails = new StaysPageSelectedHotelDetails(driver);
             staysPageReservePage = new StaysPageReservePage(driver);
             staysPageFinalDetailsReservation = new StaysPageFinalDetailsReservation(driver);
@@ -51,10 +51,12 @@ namespace Module8.Tests
         public void SearchHotels()
         {            
             searchElements.EnterDestination("Krakow");
-            searchElements.ClickDatesSelector();
-            dateSelector.SelectDayOfTheWeek("1");
-            dateSelector.SelectDayOfTheWeek("4");
-            searchElements.ClickSearchButton();
+            var fromToDateSelector = searchElements.ClickDateSelector();
+            fromToDateSelector.SelectDayOfTheWeek("1");
+            fromToDateSelector.SelectDayOfTheWeek("4");
+            //dateSelector.SelectDayOfTheWeek("1");
+            //dateSelector.SelectDayOfTheWeek("4");
+            var staysPageHotelsResults = searchElements.ClickSearchButton();
             ClassicAssert.GreaterOrEqual(staysPageHotelsResults.GetHotelCardsCount(), 1);            
         }
 

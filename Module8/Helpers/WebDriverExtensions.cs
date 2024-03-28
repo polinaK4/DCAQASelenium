@@ -2,7 +2,7 @@
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
 
-namespace Module8.Tests
+namespace Module8.Helpers
 {
     public static class WebDriverExtensions
     {
@@ -15,7 +15,8 @@ namespace Module8.Tests
         public static void WaitForTextToBePresentInElement(this IWebDriver driver, IWebElement element, int timeoutInSeconds, string expectedText)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            wait.Until(d => {
+            wait.Until(d =>
+            {
                 ExpectedConditions.TextToBePresentInElement(element, expectedText);
                 return true;
             });
@@ -24,16 +25,18 @@ namespace Module8.Tests
         public static void WaitForParticularElementName(this IWebDriver driver, IWebElement element, int timeoutInSeconds, string expectedText)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            wait.Until(d => {
+            wait.Until(d =>
+            {
                 element.Text.Equals(expectedText);
                 return true;
-            });        
+            });
         }
 
         public static void WaitForTextToBePresentInValueAttribute(this IWebDriver driver, IWebElement element, int timeoutInSeconds, string expectedText)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            wait.Until(d => {
+            wait.Until(d =>
+            {
                 element.GetAttribute("value");
                 return expectedText;
             });
@@ -47,7 +50,7 @@ namespace Module8.Tests
 
         public static void WaitUntilElementCountIs(this IWebDriver driver, By locator, int timeoutInSeconds, int expectedCount)
         {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));           
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
             wait.Until(d => d.FindElements(locator).Count == expectedCount);
         }
     }

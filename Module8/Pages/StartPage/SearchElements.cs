@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using Module8.Pages.CommonElements;
+using Module8.Pages.StaysPage;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace Module8.Pages.HomePage
@@ -25,9 +27,22 @@ namespace Module8.Pages.HomePage
 
         public void EnterDestination(string destination) => searchInput.SendKeys(destination);
 
-        public void ClickDatesSelector() => ClickElementAfterClickable(checkInOutDateSelector);      
+        //public void ClickDatesSelector() => ClickElementAfterClickable(checkInOutDateSelector);
 
-        public void ClickSearchButton() => searchButton.Click();
+        public FromToDateSelector ClickDateSelector()
+        {
+            ClickElementAfterClickable(checkInOutDateSelector);
+
+            return new FromToDateSelector(driver);
+        }
+
+        //public void ClickSearchButton() => searchButton.Click();
+
+        public StaysPageHotelsResults ClickSearchButton()
+        {
+            searchButton.Click();
+            return new StaysPageHotelsResults(driver);
+        }
 
         public void ClickToOpenOcupancyConfig() => occupancyConfig.Click();
 

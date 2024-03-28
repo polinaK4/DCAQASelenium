@@ -8,9 +8,9 @@ namespace Module8.Pages.StaysPage
     {
         private IWebElement firstResultLink => GetElementAfterItVisible(By.XPath("//*[@data-testid='property-card'][1]//a[@data-testid='title-link']"));
         private IWebElement firstResultTitle => GetElementAfterItVisible(By.XPath("//*[@data-testid='property-card'][1]//div[@data-testid='title']"));
-        public List<IWebElement> hotelCards => GetListOfElements(By.XPath("//*[@data-testid='property-card']"));
-        public List<IWebElement> hotelsRatings => GetListOfElements(By.XPath("//*[@class='b3f3c831be']"));
-        public List<IWebElement> appliedFilters => GetListOfElements(By.XPath("//*[@class='d8ce5fca2f']/span"));        
+        private List<IWebElement> hotelCards => GetListOfElements(By.XPath("//*[@data-testid='property-card']"));
+        private List<IWebElement> hotelsRatings => GetListOfElements(By.XPath("//*[@class='b3f3c831be']"));
+        private List<IWebElement> appliedFilters => GetListOfElements(By.XPath("//*[@class='d8ce5fca2f']/span"));        
 
         public StaysPageHotelsResults(IWebDriver driver) : base(driver)
         {
