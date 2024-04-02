@@ -27,16 +27,12 @@ namespace Module8.Pages.HomePage
 
         public void EnterDestination(string destination) => searchInput.SendKeys(destination);
 
-        //public void ClickDatesSelector() => ClickElementAfterClickable(checkInOutDateSelector);
-
         public FromToDateSelector ClickDateSelector()
         {
             ClickElementAfterClickable(checkInOutDateSelector);
 
             return new FromToDateSelector(driver);
         }
-
-        //public void ClickSearchButton() => searchButton.Click();
 
         public StaysPageHotelsResults ClickSearchButton()
         {

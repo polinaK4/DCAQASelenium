@@ -6,7 +6,6 @@ namespace Module8.Pages.StaysPage.Reservation
     {
         private IWebElement checkYourBookingButton => GetElementAfterItVisible(By.XPath("//button[@name='review']"));
         private IWebElement overviewPopupBookAndPayButton => GetElementAfterItVisible(By.XPath("//*[@id='booking-overview__modal']//button[@name='book']"));
-        
 
         public StaysPageFinalDetailsReservation(IWebDriver driver) : base(driver)
         {

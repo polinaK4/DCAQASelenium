@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Module8.Pages.Authorization;
+using OpenQA.Selenium;
 
 namespace Module8.Pages.CommonElements
 {
@@ -32,7 +33,10 @@ namespace Module8.Pages.CommonElements
 
         public void CheckStaysLinkTitle(string expectedText) => WaitForElementName(staysLinkTitle, expectedText);
 
-        public void ClickSignInButton() => signInButton.Click(); 
-
+        public SignInPage ClickSignInButton()
+        {
+            signInButton.Click();
+            return new SignInPage(driver);
+        }
     }
 }

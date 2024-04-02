@@ -8,7 +8,7 @@ namespace Module8.Pages.StaysPage.FiltersAndSorting
     {
         private IWebElement topSortingDropDown => ScrollToGetElement(By.XPath("//*[@data-testid='sorters-dropdown-trigger']"));
         private IWebElement priceLowestFirstOption => GetElementAfterItVisible(By.XPath("//button[@data-id='price']"));
-        public List<IWebElement> hotelsPrices => GetListOfElements(By.XPath("//*[@data-testid='price-and-discounted-price']"));
+        private List<IWebElement> hotelsPrices => GetListOfElements(By.XPath("//*[@data-testid='price-and-discounted-price']"));
 
         public StaysPageSorting(IWebDriver driver) : base(driver)
         {

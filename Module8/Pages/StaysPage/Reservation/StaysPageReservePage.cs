@@ -22,6 +22,10 @@ namespace Module8.Pages.StaysPage.Reservation
 
         public void EnterPhone(string phone) => phoneInput.SendKeys(phone);
 
-        public void ClickFinalDetailsButton() => finalDetailsButton.Click();
+        public StaysPageFinalDetailsReservation ClickFinalDetailsButton()
+        {
+            finalDetailsButton.Click();
+            return new StaysPageFinalDetailsReservation(driver);
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace Module8.Pages.StaysPage
 {
     public class StaysPageHotelsResults : BasePage
     {
+        private IWebElement geniusPopupCancelButton => GetElementAfterItVisible(By.XPath("//button[@aria-label='Dismiss sign-in info.']"));
         private IWebElement firstResultLink => GetElementAfterItVisible(By.XPath("//*[@data-testid='property-card'][1]//a[@data-testid='title-link']"));
         private IWebElement firstResultTitle => GetElementAfterItVisible(By.XPath("//*[@data-testid='property-card'][1]//div[@data-testid='title']"));
         private List<IWebElement> hotelCards => GetListOfElements(By.XPath("//*[@data-testid='property-card']"));
@@ -17,7 +18,13 @@ namespace Module8.Pages.StaysPage
 
         }
 
-        public void ClickFirstResultLink() => firstResultLink.Click();
+        public void ClickToCloseGeniusPopup() => geniusPopupCancelButton.Click();
+
+        public StaysPageSelectedHotelDetails ClickFirstResultLink()
+        {
+            firstResultLink.Click();
+            return new StaysPageSelectedHotelDetails(driver);
+        }
 
         public string GetFirstResultTitle() => firstResultTitle.Text;
 

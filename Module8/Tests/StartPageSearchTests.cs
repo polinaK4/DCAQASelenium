@@ -1,9 +1,6 @@
-﻿using Module8.Pages.Authorization;
-using Module8.Pages.CommonElements;
+﻿using Module8.Pages.CommonElements;
 using Module8.Pages.HomePage;
-using Module8.Pages.StaysPage;
 using Module8.Pages.StaysPage.FiltersAndSorting;
-using Module8.Pages.StaysPage.Reservation;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 
@@ -14,36 +11,15 @@ namespace Module8.Tests
         private Header header;
         private SearchElements searchElements;
         private CookiesPopup cookiesPopup;
-        private FromToDateSelector dateSelector;
-        private StaysPageFilterPropertyRating staysPageFiltersPropertyRating;
-        private StaysCommonElements staysCommonElements;
+        private StaysPageFilters staysPageFilters;
         private StaysPageSorting staysPageSorting;
-        private StaysPageFilterFacilities staysPageFilterFacilities;
-        private StaysPageHotelsResults staysPageHotelsResults;
-        private StaysPageSelectedHotelDetails staysPageSelectedHotelDetails;
-        private StaysPageReservePage staysPageReservePage;
-        private StaysPageFinalDetailsReservation staysPageFinalDetailsReservation;
-        private SignInPage signInPage;
-        private CreatePasswordPage createPasswordPage;
 
         [SetUp]
         public void Setup()
         {
             driver.Navigate().GoToUrl("https://booking.com/");
             searchElements = new SearchElements(driver);
-            cookiesPopup = new CookiesPopup(driver);
-            //dateSelector = new FromToDateSelector(driver);
-            staysPageFiltersPropertyRating = new StaysPageFilterPropertyRating(driver);
-            staysCommonElements = new StaysCommonElements(driver);
-            staysPageSorting = new StaysPageSorting(driver);
-            staysPageFilterFacilities = new StaysPageFilterFacilities(driver);
-            //staysPageHotelsResults = new StaysPageHotelsResults(driver);
-            staysPageSelectedHotelDetails = new StaysPageSelectedHotelDetails(driver);
-            staysPageReservePage = new StaysPageReservePage(driver);
-            staysPageFinalDetailsReservation = new StaysPageFinalDetailsReservation(driver);
-            signInPage = new SignInPage(driver);
-            header = new Header(driver);
-            createPasswordPage= new CreatePasswordPage(driver);
+            cookiesPopup = new CookiesPopup(driver);            
             cookiesPopup.ClickDecline();
         }
 
@@ -54,8 +30,6 @@ namespace Module8.Tests
             var fromToDateSelector = searchElements.ClickDateSelector();
             fromToDateSelector.SelectDayOfTheWeek("1");
             fromToDateSelector.SelectDayOfTheWeek("4");
-            //dateSelector.SelectDayOfTheWeek("1");
-            //dateSelector.SelectDayOfTheWeek("4");
             var staysPageHotelsResults = searchElements.ClickSearchButton();
             ClassicAssert.GreaterOrEqual(staysPageHotelsResults.GetHotelCardsCount(), 1);            
         }
@@ -63,10 +37,12 @@ namespace Module8.Tests
         [Test]
         public void SearchingForHotelsInASpecificCityWithFilters()
         {
+            staysPageFilters = new StaysPageFilters(driver);
+            staysPageSorting = new StaysPageSorting(driver);
             searchElements.EnterDestination("Zakopane");
-            searchElements.ClickDatesSelector();
-            dateSelector.SelectDayOfTheWeek("1");
-            dateSelector.SelectDayOfTheWeek("4");
+            var fromToDateSelector = searchElements.ClickDateSelector();
+            fromToDateSelector.SelectDayOfTheWeek("1");
+            fromToDateSelector.SelectDayOfTheWeek("4");
             searchElements.ClickToOpenOcupancyConfig();
             searchElements.ClickToIncreaseAdults();
             searchElements.ClickToIncreaseAdults();
@@ -77,14 +53,14 @@ namespace Module8.Tests
             searchElements.ClickToOpenOcupancyConfig();            
             searchElements.ClickToIncreaseRooms();
             ClassicAssert.AreEqual("2", searchElements.GetRoomsValue());
-            searchElements.ClickSearchButton();
-            staysCommonElements.ClickToCloseGeniusPopup();
-            staysPageFiltersPropertyRating.ClickPropertyRating5stars();
+            var staysPageHotelsResults = searchElements.ClickSearchButton();
+            staysPageHotelsResults.ClickToCloseGeniusPopup();          
+            staysPageFilters.ClickPropertyRating5stars();
             staysPageHotelsResults.CheckHotelsRating("5 out of 5");
             staysPageSorting.SelectSortingPricelowestFirst();
             staysPageSorting.CheckPricesSortingAsc();
-            staysPageFilterFacilities.ClickFacilitiesShowMoreLessButton();
-            staysPageFilterFacilities.ClickFacilitiesFitnessCentre();
+            staysPageFilters.ClickFacilitiesShowMoreLessButton();
+            staysPageFilters.ClickFacilitiesFitnessCentre();
             staysPageHotelsResults.CheckAppliedFilters("Fitness centre");
         }
 
@@ -92,26 +68,26 @@ namespace Module8.Tests
         public void SearchSelectAndAttemptToBookAHotel()
         {
             searchElements.EnterDestination("Zakopane");
-            searchElements.ClickDatesSelector();
-            dateSelector.SelectDayOfTheWeek("1");
-            dateSelector.SelectDayOfTheWeek("4");
+            var fromToDateSelector = searchElements.ClickDateSelector();
+            fromToDateSelector.SelectDayOfTheWeek("1");
+            fromToDateSelector.SelectDayOfTheWeek("4");
             searchElements.ClickToOpenOcupancyConfig();
             searchElements.ClickToIncreaseAdults();
             searchElements.ClickToIncreaseAdults();
             ClassicAssert.AreEqual("4", searchElements.GetAdultsValue());
-            searchElements.ClickSearchButton();
-            staysCommonElements.ClickToCloseGeniusPopup();
+            var staysPageHotelsResults = searchElements.ClickSearchButton();
+            staysPageHotelsResults.ClickToCloseGeniusPopup();
             string firstResultTitle = staysPageHotelsResults.GetFirstResultTitle();
-            staysPageHotelsResults.ClickFirstResultLink();
+            var staysPageSelectedHotelDetails = staysPageHotelsResults.ClickFirstResultLink();
             SwitchToAnotherTab();
             ClassicAssert.AreEqual(firstResultTitle, staysPageSelectedHotelDetails.GetSelectedHotelTitle());
             staysPageSelectedHotelDetails.ClickReserveYourSelectionsButton();
-            staysPageSelectedHotelDetails.ClickIllReserveButton();
+            var staysPageReservePage = staysPageSelectedHotelDetails.ClickIllReserveButton();
             staysPageReservePage.EnterFirstName("John");
             staysPageReservePage.EnterLastName("Doe");
             staysPageReservePage.EnterEmail("john.doe@email.com");
             staysPageReservePage.EnterPhone("555555555");
-            staysPageReservePage.ClickFinalDetailsButton();
+            var staysPageFinalDetailsReservation = staysPageReservePage.ClickFinalDetailsButton();
             staysPageFinalDetailsReservation.ClickCheckYourBookingButton();
             ClassicAssert.AreEqual(true, staysPageFinalDetailsReservation.VerifyPopupBookAndPayEnabled());    
         }
@@ -119,6 +95,7 @@ namespace Module8.Tests
         [Test]
         public void VerifyingLanguageChange()
         {
+            header = new Header(driver);
             header.ClickLanguageButton();
             header.ClickRussianLanguageButton();
             header.CheckStaysLinkTitle("Жилье"); 
@@ -127,9 +104,9 @@ namespace Module8.Tests
         [Test]
         public void VerifyInvalidLogin()
         {
-            header.ClickSignInButton();
+            var signInPage = header.ClickSignInButton();
             signInPage.EnterEmail("tststst@test.com");
-            signInPage.ClickContinueWithEmailButton();
+            var createPasswordPage = signInPage.ClickContinueWithEmailButton();
             ClassicAssert.AreEqual(true, createPasswordPage.CheckPasswordFieldDisplayed());
             ClassicAssert.AreEqual(true, createPasswordPage.CheckConfirmPasswordFieldDisplayed());
         }

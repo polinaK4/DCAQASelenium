@@ -14,6 +14,10 @@ namespace Module8.Pages.Authorization
 
         public void EnterEmail(string email) => emailInputField.SendKeys(email);
 
-        public void ClickContinueWithEmailButton() => continueWithEmailButton.Click();
+        public CreatePasswordPage ClickContinueWithEmailButton()
+        {
+            continueWithEmailButton.Click();
+            return new CreatePasswordPage(driver);
+        }
     }
 }
