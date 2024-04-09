@@ -1,5 +1,6 @@
 ﻿using Module8.Pages.CarRentalsPage;
 using Module8.Pages.CommonElements;
+using Module8.Pages.CommonElements.Header;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 

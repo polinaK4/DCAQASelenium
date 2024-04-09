@@ -1,5 +1,6 @@
 ﻿using Module8.Helpers;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
 
 namespace Module8.Pages
@@ -60,6 +61,53 @@ namespace Module8.Pages
             return element;
         }
 
+        public void FindAndFocusElementUsingTabKey(IWebElement targetElement, string comparingAttribute)
+        {
+            Actions actions = new Actions(driver);
+            string activeElement = null;
+            while (activeElement != targetElement.GetAttribute(comparingAttribute))
+            {
+                actions.SendKeys(Keys.Tab)
+                    .Perform();
+                activeElement = driver.SwitchTo().ActiveElement().GetAttribute(comparingAttribute);
+            }
+        }
 
+        public void FindAndFocusSpecificElementUsingArrowDownKey(int targetElementNumber)
+        {
+            Actions actions = new Actions(driver);
+            int activeElementCount = 0;
+            while (activeElementCount != targetElementNumber)
+            {
+                actions.SendKeys(Keys.ArrowDown)
+                    .Perform();
+                activeElementCount++;
+            }
+        }
+        public void FindElementByComparingAndFocusUsingArrowDownKey(List<IWebElement> elements, string expectedValue)
+        {
+            Actions actions = new Actions(driver);
+            foreach (IWebElement element in elements)
+            {
+                    actions.SendKeys(Keys.ArrowDown)
+                            .Perform();
+                if (element.Text == expectedValue)
+                {
+                    break;
+                }
+            }
+        }
+
+        public void ClickElementUsingJavaScript(IWebElement element)
+        {
+            IJavaScriptExecutor executor = (IJavaScriptExecutor)driver;
+            executor.ExecuteScript("arguments[0].click();", element);
+        }
+
+        public string GetAttributeOfFocusedElement(string comparingAttribute)
+        {
+            string focusedElement = driver.SwitchTo().ActiveElement().GetAttribute(comparingAttribute);
+            return focusedElement;
+        }
     }
 }
