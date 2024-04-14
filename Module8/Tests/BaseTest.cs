@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 
 namespace Module8.Tests
 {
@@ -47,49 +46,12 @@ namespace Module8.Tests
             }
         }
 
-        public void ClickEnterKeyOnFocusedElement()
-        {
-            Actions actions = new Actions(driver);
-            IWebElement activeElement = driver.SwitchTo().ActiveElement();
-            activeElement.SendKeys(Keys.Enter);
-        }
-
-        public void EnterTextToFocusedElement(string inputText)
-        {
-            Actions actions = new Actions(driver);
-            actions.SendKeys(inputText)
-                .Perform();
-        }
-
-        public void FocusNextElementUsingTabKey()
-        {
-            Actions actions = new Actions(driver);
-            actions.SendKeys(Keys.Tab)
-                .Perform();
-        }
-
-        public void ClickArrowUpButton()
-        {
-            Actions actions = new Actions(driver);
-            actions.SendKeys(Keys.ArrowUp)
-                .Perform();
-        }
-
         public double CheckScrollPosition()
         {
             IJavaScriptExecutor executor = (IJavaScriptExecutor)driver;
             double value = Convert.ToDouble(executor.ExecuteScript("return window.pageYOffset;"));            
             double valueRounded = Math.Round(value, 2);
             return valueRounded;
-        }
-
-        public void ClickShiftAndTabButtons()
-        {
-            Actions actions = new Actions(driver);
-            actions.KeyDown(Keys.Shift)
-                .SendKeys(Keys.Tab)
-                .KeyUp(Keys.Shift)
-                .Perform();
         }
     }
 }

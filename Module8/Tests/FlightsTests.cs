@@ -23,7 +23,7 @@ namespace Module8.Tests
             flightsPage = new FlightsPage(driver);
             flightsPageSearch = new FlightsPageSearch(driver);
             flightPageSearchResults = new FlightPageSearchResults(driver);
-            cookiesPopup.ClickDecline();
+            cookiesPopup.DeclineCookies();
         }
 
         [Test]

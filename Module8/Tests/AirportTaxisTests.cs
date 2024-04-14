@@ -23,7 +23,7 @@ namespace Module8.Tests
             airportTaxisPage = new AirportTaxisPage(driver);
             airportTaxisResultsPage = new AirportTaxisResultsPage(driver);
             airportTaxisCheckoutPage = new AirportTaxisCheckoutPage(driver);
-            cookiesPopup.ClickDecline();
+            cookiesPopup.DeclineCookies();
         }
 
         [Test]

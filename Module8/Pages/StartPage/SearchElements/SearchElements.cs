@@ -17,9 +17,7 @@ namespace Module8.Pages.StartPage.SearchElements
 
         }
 
-        public void FocusDestinationInputUsingTab() => FindAndFocusElementUsingTabKey(searchInput, "name");
-
-        public void EnterDestination(string destination) => searchInput.SendKeys(destination);
+        public void EnterDestination(string destination) => EnterTextAndWaitItDisplayed(destination, searchInput);
 
         public void SelectCheckInOutNextMonthUsingArrowKey() => FindAndFocusSpecificElementUsingArrowDownKey(2);
 
@@ -36,8 +34,6 @@ namespace Module8.Pages.StartPage.SearchElements
             searchButton.Click();
             return new StaysPageHotelsResults(driver);
         }
-
-        public void FocusSearchButtonUsingTab() => FindAndFocusElementUsingTabKey(searchButton, "type");
 
         public GuestsConfig ClickToOpenGuestsConfig()
         {

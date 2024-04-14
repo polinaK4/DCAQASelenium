@@ -1,6 +1,5 @@
 ﻿using Module8.Helpers;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
 
 namespace Module8.Pages
@@ -54,6 +53,11 @@ namespace Module8.Pages
             driver.WaitForElementBeClickable(element, 10).Click();
         }
 
+        public void WaitForElementNotVisible(By locator)
+        {
+            driver.WaitForElementNotVisible(locator, 10);
+        }
+
         public IWebElement ScrollToGetElement(By locator)
         {
             IWebElement element = driver.FindElement(locator);
@@ -61,53 +65,26 @@ namespace Module8.Pages
             return element;
         }
 
-        public void FindAndFocusElementUsingTabKey(IWebElement targetElement, string comparingAttribute)
-        {
-            Actions actions = new Actions(driver);
-            string activeElement = null;
-            while (activeElement != targetElement.GetAttribute(comparingAttribute))
-            {
-                actions.SendKeys(Keys.Tab)
-                    .Perform();
-                activeElement = driver.SwitchTo().ActiveElement().GetAttribute(comparingAttribute);
-            }
-        }
-
         public void FindAndFocusSpecificElementUsingArrowDownKey(int targetElementNumber)
         {
-            Actions actions = new Actions(driver);
-            int activeElementCount = 0;
-            while (activeElementCount != targetElementNumber)
-            {
-                actions.SendKeys(Keys.ArrowDown)
-                    .Perform();
-                activeElementCount++;
-            }
+            driver.FindAndFocusSpecificElementUsingArrowDownKey(targetElementNumber);
         }
+
         public void FindElementByComparingAndFocusUsingArrowDownKey(List<IWebElement> elements, string expectedValue)
         {
-            Actions actions = new Actions(driver);
-            foreach (IWebElement element in elements)
-            {
-                    actions.SendKeys(Keys.ArrowDown)
-                            .Perform();
-                if (element.Text == expectedValue)
-                {
-                    break;
-                }
-            }
+            driver.FindElementByComparingAndFocusUsingArrowDownKey(elements, expectedValue);
+        }
+
+        public void EnterTextAndWaitItDisplayed(string inputText, IWebElement element)
+        {
+            driver.EnterTextToFocusedElement(inputText);
+            driver.WaitForTextToBePresentInValueAttribute(element, 5, inputText);
         }
 
         public void ClickElementUsingJavaScript(IWebElement element)
         {
             IJavaScriptExecutor executor = (IJavaScriptExecutor)driver;
             executor.ExecuteScript("arguments[0].click();", element);
-        }
-
-        public string GetAttributeOfFocusedElement(string comparingAttribute)
-        {
-            string focusedElement = driver.SwitchTo().ActiveElement().GetAttribute(comparingAttribute);
-            return focusedElement;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Module8.Tests
             headerElements = new Header(driver);
             cookiesPopup = new CookiesPopup(driver);
             carRentalsPage = new CarRentalsPage(driver);
-            cookiesPopup.ClickDecline();
+            cookiesPopup.DeclineCookies();
         }
 
         [Test]

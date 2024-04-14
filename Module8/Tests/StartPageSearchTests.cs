@@ -1,4 +1,5 @@
-﻿using Module8.Pages.CommonElements;
+﻿using Module8.Helpers;
+using Module8.Pages.CommonElements;
 using Module8.Pages.CommonElements.Header;
 using Module8.Pages.StartPage.SearchElements;
 using Module8.Pages.StaysPage;
@@ -17,14 +18,16 @@ namespace Module8.Tests
         private StaysPageSorting staysPageSorting;
         private CurrencyPopup currencyPopup;
         private StaysPageHotelsResults staysPageHotelsResults;
+        private GuestsConfig guestsConfig;
 
         [SetUp]
         public void Setup()
         {
             driver.Navigate().GoToUrl("https://booking.com/");
             searchElements = new SearchElements(driver);
-            cookiesPopup = new CookiesPopup(driver);            
-            cookiesPopup.ClickDecline();
+            cookiesPopup = new CookiesPopup(driver);
+            //cookiesPopup.ClickDecline();
+            cookiesPopup.DeclineCookies();
         }
 
         [Test]
@@ -114,13 +117,13 @@ namespace Module8.Tests
             ClassicAssert.AreEqual(true, createPasswordPage.CheckPasswordFieldDisplayed());
             ClassicAssert.AreEqual(true, createPasswordPage.CheckConfirmPasswordFieldDisplayed());
         }
-        //module9
+        ///module9/ 
         [Test]
         public void NavigateToRegisterPageUsingKeyboard()
         {
             header = new Header(driver);
-            header.FindAndFocusFocusRegisterButtonUsingTab();
-            ClickEnterKeyOnFocusedElement();
+            driver.PressTabKey(7);
+            driver.ClickEnterKeyOnFocusedElement();
             VerifyUrlStartsWith("https://account.booking.com/sign-in");
         }
 
@@ -129,11 +132,11 @@ namespace Module8.Tests
         {
             header = new Header(driver);
             currencyPopup = new CurrencyPopup(driver);
-            header.FindAndFocusCurrencyButtonUsingTab();
-            ClickEnterKeyOnFocusedElement();
+            driver.PressTabKey(3);
+            driver.ClickEnterKeyOnFocusedElement();
             currencyPopup.FindAndFocusCurrencyButtonUsingArrowDown();
             string focusedCurrency = currencyPopup.GetLastCurrencyValue();
-            ClickEnterKeyOnFocusedElement();
+            driver.ClickEnterKeyOnFocusedElement();
             ClassicAssert.AreEqual(focusedCurrency, header.GetCurrentCurrencyValue());
         }
 
@@ -142,44 +145,44 @@ namespace Module8.Tests
         {
             guestsConfig = new GuestsConfig(driver);
             staysPageHotelsResults = new StaysPageHotelsResults(driver);
-            searchElements.FocusDestinationInputUsingTab();
-            EnterTextToFocusedElement("New York");
-            FocusNextElementUsingTabKey();
-            ClickEnterKeyOnFocusedElement();
+            driver.PressTabKey(16);
+            driver.EnterTextToFocusedElement("New York");
+            driver.PressTabKey(1);
+            driver.ClickEnterKeyOnFocusedElement();
             searchElements.SelectCheckInOutNextMonthUsingArrowKey();
-            ClickEnterKeyOnFocusedElement();
-            FocusNextElementUsingTabKey();
-            FocusNextElementUsingTabKey();
-            FocusNextElementUsingTabKey();
-            ClickEnterKeyOnFocusedElement();
+            driver.ClickEnterKeyOnFocusedElement();
+            driver.PressTabKey(3);
+            driver.ClickEnterKeyOnFocusedElement();
             searchElements.SelectCheckInOutDatePlus5UsingArrowKey();
-            ClickEnterKeyOnFocusedElement();
-            FocusNextElementUsingTabKey();
-            ClickEnterKeyOnFocusedElement();
-            FocusNextElementUsingTabKey();
-            ClickArrowUpButton();
-            searchElements.FocusSearchButtonUsingTab();
-            ClickEnterKeyOnFocusedElement();
+            driver.ClickEnterKeyOnFocusedElement();
+            driver.PressTabKey(1);
+            driver.ClickEnterKeyOnFocusedElement();
+            driver.PressTabKey(1);
+            driver.ClickArrowUpKey();
+            driver.PressTabKey(3);
+            driver.ClickEnterKeyOnFocusedElement();
+            driver.PressTabKey(1);
+            driver.ClickEnterKeyOnFocusedElement();
             ClassicAssert.GreaterOrEqual(staysPageHotelsResults.GetHotelCardsCount(), 1);
         }
 
         [Test]
         public void SelectingACityFromAutoComplete()
         {
-            searchElements.FocusDestinationInputUsingTab();
-            EnterTextToFocusedElement("New Yo");
+            driver.PressTabKey(16);
+            searchElements.EnterDestination("New Yo");
             searchElements.FindandFocusAutocompleteResultUsingArrowDownKey("New York Central Park");
-            ClassicAssert.AreEqual(searchElements.GetInputStringValue(), "New York Central Park");
+            ClassicAssert.AreEqual("New York Central Park", searchElements.GetInputStringValue());
         }
 
         [Test]
         public void SkipToMainContent()
         {
             header = new Header(driver);
-            FocusNextElementUsingTabKey();
+            driver.PressTabKey(1);
             header.ClickSkipToMainContentUsingJS();
             ClassicAssert.AreEqual(123.2, CheckScrollPosition());
-            ClickShiftAndTabButtons();
+            driver.ClickShiftAndTabButtons();
             ClassicAssert.AreEqual(0, CheckScrollPosition());
         }
     }

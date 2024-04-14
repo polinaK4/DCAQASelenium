@@ -25,7 +25,7 @@ namespace Module8.Tests
             dateSelector = new FromToDateSelector(driver);
             attractionsResultPage = new AttractionsResultPage(driver);
             attractionDetailPage = new AttractionDetailPage(driver);
-            cookiesPopup.ClickDecline();
+            cookiesPopup.DeclineCookies();
         }
 
         [Test]
