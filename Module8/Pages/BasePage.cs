@@ -53,6 +53,11 @@ namespace Module8.Pages
             driver.WaitForElementBeClickable(element, 10).Click();
         }
 
+        public void WaitForElementNotVisible(By locator)
+        {
+            driver.WaitForElementNotVisible(locator, 10);
+        }
+
         public IWebElement ScrollToGetElement(By locator)
         {
             IWebElement element = driver.FindElement(locator);
@@ -60,6 +65,26 @@ namespace Module8.Pages
             return element;
         }
 
+        public void FindAndFocusSpecificElementUsingArrowDownKey(int targetElementNumber)
+        {
+            driver.FindAndFocusSpecificElementUsingArrowDownKey(targetElementNumber);
+        }
 
+        public void FindElementByComparingAndFocusUsingArrowDownKey(List<IWebElement> elements, string expectedValue)
+        {
+            driver.FindElementByComparingAndFocusUsingArrowDownKey(elements, expectedValue);
+        }
+
+        public void EnterTextAndWaitItDisplayed(string inputText, IWebElement element)
+        {
+            driver.EnterTextToFocusedElement(inputText);
+            driver.WaitForTextToBePresentInValueAttribute(element, 5, inputText);
+        }
+
+        public void ClickElementUsingJavaScript(IWebElement element)
+        {
+            IJavaScriptExecutor executor = (IJavaScriptExecutor)driver;
+            executor.ExecuteScript("arguments[0].click();", element);
+        }
     }
 }
