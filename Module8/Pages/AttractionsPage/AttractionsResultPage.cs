@@ -1,12 +1,14 @@
-﻿using OpenQA.Selenium;
+﻿using Module8.PoliWebElements;
+using Module8.Wrappers;
+using OpenQA.Selenium;
 
 namespace Module8.Pages.AttractionsPage
 {
     public class AttractionsResultPage : BasePage
     {
-        private IWebElement attractionsFirstResult => GetElementAfterItVisible(By.XPath("//*[@data-testid='sr-list']/div/div[1]//a"));
-        private IWebElement destinationInput => GetElementAfterItVisible(By.XPath("//input[@name='query']"));
-        private IWebElement datesInput => GetElementAfterItVisible(By.XPath("//*[@class='css-tbiur0']"));
+        private PoliWebElement attractionsFirstResult => new PoliWebElement(By.XPath("//*[@data-testid='sr-list']/div/div[1]//a"));
+        private TextboxElement destinationInput => new TextboxElement(By.XPath("//input[@name='query']"));
+        private TextboxElement datesInput => new TextboxElement(By.XPath("//*[@class='css-tbiur0']"));
 
         public AttractionsResultPage(IWebDriver driver) : base(driver)
         {

@@ -1,5 +1,6 @@
 ﻿using Module8.Pages.CarRentalsPage;
 using Module8.Pages.CommonElements;
+using Module8.Pages.CommonElements.Header;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 
@@ -18,7 +19,7 @@ namespace Module8.Tests
             headerElements = new Header(driver);
             cookiesPopup = new CookiesPopup(driver);
             carRentalsPage = new CarRentalsPage(driver);
-            cookiesPopup.ClickDecline();
+            cookiesPopup.DeclineCookies();
         }
 
         [Test]

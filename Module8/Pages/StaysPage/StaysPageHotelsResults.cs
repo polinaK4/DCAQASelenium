@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Module8.PoliWebElements;
+using Module8.Wrappers;
 using NUnit.Framework.Legacy;
 using OpenQA.Selenium;
 
@@ -6,10 +7,10 @@ namespace Module8.Pages.StaysPage
 {
     public class StaysPageHotelsResults : BasePage
     {
-        private IWebElement geniusPopupCancelButton => GetElementAfterItVisible(By.XPath("//button[@aria-label='Dismiss sign-in info.']"));
-        private IWebElement firstResultLink => GetElementAfterItVisible(By.XPath("//*[@data-testid='property-card'][1]//a[@data-testid='title-link']"));
-        private IWebElement firstResultTitle => GetElementAfterItVisible(By.XPath("//*[@data-testid='property-card'][1]//div[@data-testid='title']"));
-        private List<IWebElement> hotelCards => GetListOfElements(By.XPath("//*[@data-testid='property-card']"));
+        private ButtonElement geniusPopupCancelButton => new ButtonElement(By.XPath("//button[@aria-label='Dismiss sign-in info.']"));
+        private PoliWebElement firstResultLink => new PoliWebElement(By.XPath("//*[@data-testid='property-card'][1]//a[@data-testid='title-link']"));
+        private PoliWebElement firstResultTitle => new PoliWebElement(By.XPath("//*[@data-testid='property-card'][1]//div[@data-testid='title']"));
+        private List<IWebElement> hotelCards => GetListOfElements(By.XPath("//*[@data-testid='property-card']")).ToList();
         private List<IWebElement> hotelsRatings => GetListOfElements(By.XPath("//*[@class='b3f3c831be']"));
         private List<IWebElement> appliedFilters => GetListOfElements(By.XPath("//*[@class='d8ce5fca2f']/span"));        
 
@@ -18,7 +19,7 @@ namespace Module8.Pages.StaysPage
 
         }
 
-        public void ClickToCloseGeniusPopup() => geniusPopupCancelButton.Click();
+        public void ClickToCloseGeniusPopup() => geniusPopupCancelButton.ClickWhenReady();
 
         public StaysPageSelectedHotelDetails ClickFirstResultLink()
         {

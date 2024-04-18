@@ -1,13 +1,12 @@
-﻿using OpenQA.Selenium;
-using System.Xml.Linq;
+﻿using Module8.Wrappers;
+using OpenQA.Selenium;
 
 namespace Module8.Pages.AttractionsPage
 {
     public class AttractionDetailPage : BasePage
     {
-        //private IWebElement selectedDateTile => ScrollToGetElement(By.XPath("//button[@aria-pressed='true']"));
-        private IWebElement selectedDateDayOfTheMonth => GetElementAfterItVisible(By.XPath("//button[@aria-pressed='true']/div[2]"));
-        private IWebElement selectedDateMounth => GetElementAfterItVisible(By.XPath("//button[@aria-pressed='true']/div[3]"));
+        private PoliWebElement selectedDateDayOfTheMonth => new PoliWebElement(By.XPath("//button[@aria-pressed='true']/div[2]"));
+        private PoliWebElement selectedDateMounth => new PoliWebElement(By.XPath("//button[@aria-pressed='true']/div[3]"));
 
         public AttractionDetailPage(IWebDriver driver) : base(driver)
         {

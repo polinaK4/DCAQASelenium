@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
 using Module8.Wrappers;
+using Module8.Helpers;
 
 namespace Module8.PoliWebElements
 {

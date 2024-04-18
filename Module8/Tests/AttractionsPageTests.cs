@@ -1,5 +1,6 @@
 ﻿using Module8.Pages.AttractionsPage;
 using Module8.Pages.CommonElements;
+using Module8.Pages.CommonElements.Header;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 
@@ -24,7 +25,7 @@ namespace Module8.Tests
             dateSelector = new FromToDateSelector(driver);
             attractionsResultPage = new AttractionsResultPage(driver);
             attractionDetailPage = new AttractionDetailPage(driver);
-            cookiesPopup.ClickDecline();
+            cookiesPopup.DeclineCookies();
         }
 
         [Test]

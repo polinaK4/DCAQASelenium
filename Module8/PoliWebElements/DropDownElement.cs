@@ -13,13 +13,13 @@ namespace Module8.PoliWebElements
 
         public void SelectByText(string text)
         {
-            var selectElement = new SelectElement(this.element);
+            var selectElement = new SelectElement(element);
             selectElement.SelectByText(text);
         }
 
         public void SelectByValue(string value)
         {
-            var selectElement = new SelectElement(this.element);
+            var selectElement = new SelectElement(element);
             selectElement.SelectByValue(value);
         }
 

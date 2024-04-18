@@ -9,17 +9,28 @@ namespace Module8.Wrappers
     public class PoliWebElement : IWebElement
     {
         protected By By;
-        protected IWebDriver driver;
+        protected IWebDriver driver => BrowserFactory.GetDriver(BrowserType.Chrome);
+        //driver = BrowserFactory.GetDriver(BrowserType.Firefox);
         protected IWebElement element;
 
-        public PoliWebElement(By By)
+        public PoliWebElement()
         {
-            this.element = driver.WaitForElementVisible(By, 10);
+            //element = driver.WaitForElementVisible(By, 10);
         }
 
-        public string Text => this.element.Text;
+        public IWebElement FindElement(By by)
+        {
+           return driver.WaitForElementVisible(By, 10);
+        }
 
-        public bool Displayed => this.element.Displayed;
+        public List<IWebElement> FindElementsToList(By by)
+        {
+            return driver.FindElements(by).ToList();
+        }
+
+        public string Text => element.Text;
+
+        public bool Displayed => element.Displayed;
 
         public string TagName => throw new NotImplementedException();
 
@@ -31,31 +42,21 @@ namespace Module8.Wrappers
 
         public Size Size => throw new NotImplementedException();
 
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
+        public void Clear() => element.Clear();
 
-        //public bool Enabled => this.otherFunctionEnabled();
+        public void Click() => element.Click();
 
-        public void Click()
-        {
-            this.element.Click();
-        }
 
-        public IWebElement FindElement(By by)
-        {
-            throw new NotImplementedException();
-        }
 
         public ReadOnlyCollection<IWebElement> FindElements(By by)
         {
             throw new NotImplementedException();
         }
 
+
         public string GetAttribute(string attributeName)
         {
-            throw new NotImplementedException();
+            return element.GetAttribute(attributeName);
         }
 
         public string GetCssValue(string propertyName)

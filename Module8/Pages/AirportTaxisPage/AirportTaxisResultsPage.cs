@@ -1,11 +1,13 @@
-﻿using OpenQA.Selenium;
+﻿using Module8.PoliWebElements;
+using Module8.Wrappers;
+using OpenQA.Selenium;
 
 namespace Module8.Pages.AirportTaxisPage
 {
     public class AirportTaxisResultsPage : BasePage
     {
-        private IWebElement pickupLocationField => GetElementAfterItVisible(By.XPath("//input[@name='pickup']"));
-        private IWebElement destinationField => GetElementAfterItVisible(By.XPath("//input[@name='dropoff']"));
+        private PoliWebElement pickupLocationField => new PoliWebElement(By.XPath("//input[@name='pickup']"));
+        private TextboxElement destinationField => new TextboxElement(By.XPath("//input[@name='dropoff']"));
 
         private string taxiOptionsLocator = "//*[@class='SRM_527ba3f0']";
         public List<IWebElement> taxiOptions => GetListOfElements(By.XPath(taxiOptionsLocator));
