@@ -12,8 +12,8 @@ namespace Module8.Pages.AirportTaxisPage
         private string taxiOptionsLocator = "//*[@class='SRM_527ba3f0']";
         public List<IWebElement> taxiOptions => GetListOfElements(By.XPath(taxiOptionsLocator));
         public List<IWebElement> taxiOptionsTitles => GetListOfElements(By.XPath("//*[@class='SRM_f48a68a6 taxi-and-price__title']"));
-        private IWebElement showMoreButton => ScrollToGetElement(By.XPath("//*[@data-test='taxi-car-card-wrapper__expandable-cta']"));
-        private IWebElement continueButton => ScrollToGetElement(By.XPath("//*[@data-test='continue-action-bar__continue-button']"));        
+        private ButtonElement showMoreButton => new ButtonElement(By.XPath("//*[@data-test='taxi-car-card-wrapper__expandable-cta']"));
+        private ButtonElement continueButton => new ButtonElement(By.XPath("//*[@data-test='continue-action-bar__continue-button']"));     
 
         public AirportTaxisResultsPage(IWebDriver driver) : base(driver)
         {
@@ -26,12 +26,12 @@ namespace Module8.Pages.AirportTaxisPage
 
         public void VerifyTaxiOptionsCount(int expectedCount) => WaitForExpectedElementsCount(By.XPath(taxiOptionsLocator), expectedCount);
 
-        public void ClickShowMoreButton() => showMoreButton.Click();
+        public void ClickShowMoreButton() => showMoreButton.ScrollAndClickWhenReady();
 
         public void SelectLastTaxiOption() => taxiOptions.Last().Click();
 
         public string GetLastTaxiOptionTitle() => taxiOptionsTitles.Last().Text;
 
-        public void ClickContinueButton() => continueButton.Click();
+        public void ClickContinueButton() => continueButton.ScrollAndClickWhenReady();
     }
 }

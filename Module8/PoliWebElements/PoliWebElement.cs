@@ -13,9 +13,9 @@ namespace Module8.Wrappers
         //driver = BrowserFactory.GetDriver(BrowserType.Firefox);
         protected IWebElement element;
 
-        public PoliWebElement()
+        public PoliWebElement(By By)
         {
-            //element = driver.WaitForElementVisible(By, 10);
+            element = driver.WaitForElementVisible(By, 10);
         }
 
         public IWebElement FindElement(By by)
