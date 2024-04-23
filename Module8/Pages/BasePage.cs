@@ -49,19 +49,14 @@ namespace Module8.Pages
             driver.WaitForElementNotVisible(locator, 10);
         }
 
-        public IWebElement ScrollToGetElement(By locator)
-        {
-            IWebElement element = driver.FindElement(locator);
-            driver.ExecuteJavaScript("arguments[0].scrollIntoView(true);", element);
-            return element;
-        }
+
 
         public void FindAndFocusSpecificElementUsingArrowDownKey(int targetElementNumber)
         {
             driver.FindAndFocusSpecificElementUsingArrowDownKey(targetElementNumber);
         }
 
-        public void FindElementByComparingAndFocusUsingArrowDownKey(List<IWebElement> elements, string expectedValue)
+        public void FindElementByComparingAndFocusUsingArrowDownKey(List<PoliWebElement> elements, string expectedValue)
         {
             driver.FindElementByComparingAndFocusUsingArrowDownKey(elements, expectedValue);
         }

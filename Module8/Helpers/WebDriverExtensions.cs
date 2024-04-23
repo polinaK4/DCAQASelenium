@@ -2,11 +2,31 @@
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium.Interactions;
+using Module8.Wrappers;
+using OpenQA.Selenium.Support.Extensions;
 
 namespace Module8.Helpers
 {
     public static class WebDriverExtensions
     {
+        public static PoliWebElement ToPoliWebElement(this IWebElement element)
+        {
+            return new PoliWebElement(element);
+        }
+
+        public static List<PoliWebElement> GetPoliWebElementList(this IWebDriver driver, By by)
+        {
+            var result = driver.FindElements(by).Select(el => el.ToPoliWebElement()).ToList();
+            return result;
+        }
+
+        public static PoliWebElement ScrollAndGetElement(this IWebDriver driver, By locator)
+        {
+            IWebElement element = driver.FindElement(locator);
+            driver.ExecuteJavaScript("arguments[0].scrollIntoView(true);", element);
+            return element.ToPoliWebElement();
+        }
+
         public static IWebElement WaitForElementVisible(this IWebDriver driver, By locator, int timeoutInSeconds)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
@@ -47,12 +67,6 @@ namespace Module8.Helpers
                 element.GetAttribute("value");
                 return expectedText;
             });
-        }
-
-        public static IWebElement WaitForElementBeClickable(this IWebDriver driver, IWebElement element, int timeoutInSeconds)
-        {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            return wait.Until(ExpectedConditions.ElementToBeClickable(element));
         }
 
         public static void WaitUntilElementCountIs(this IWebDriver driver, By locator, int timeoutInSeconds, int expectedCount)
@@ -97,7 +111,7 @@ namespace Module8.Helpers
                 .Perform();
         }
 
-        public static void FindElementByComparingAndFocusUsingArrowDownKey(this IWebDriver driver, List<IWebElement> elements, string expectedValue)
+        public static void FindElementByComparingAndFocusUsingArrowDownKey(this IWebDriver driver, List<PoliWebElement> elements, string expectedValue)
         {
             Actions actions = new Actions(driver);
             foreach (IWebElement element in elements)

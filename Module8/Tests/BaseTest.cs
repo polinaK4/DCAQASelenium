@@ -12,8 +12,7 @@ namespace Module8.Tests
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            driver = BrowserFactory.GetDriver(BrowserType.Chrome);
-            //driver = BrowserFactory.GetDriver(BrowserType.Firefox);
+            driver = BrowserFactory.GetDriver();
         }
 
         [OneTimeTearDown]

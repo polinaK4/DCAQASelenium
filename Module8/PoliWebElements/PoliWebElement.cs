@@ -1,6 +1,7 @@
 ﻿using Module8.Helpers;
 using Module8.Utilities;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 using System.Collections.ObjectModel;
 using System.Drawing;
 
@@ -9,8 +10,7 @@ namespace Module8.Wrappers
     public class PoliWebElement : IWebElement
     {
         protected By By;
-        protected IWebDriver driver => BrowserFactory.GetDriver(BrowserType.Chrome);
-        //driver = BrowserFactory.GetDriver(BrowserType.Firefox);
+        protected IWebDriver driver => BrowserFactory.GetDriver();
         protected IWebElement element;
 
         public PoliWebElement(By By)
@@ -18,14 +18,14 @@ namespace Module8.Wrappers
             element = driver.WaitForElementVisible(By, 10);
         }
 
+        public PoliWebElement(IWebElement element)
+        {
+            this.element = element;
+        }
+
         public IWebElement FindElement(By by)
         {
            return driver.WaitForElementVisible(By, 10);
-        }
-
-        public List<IWebElement> FindElementsToList(By by)
-        {
-            return driver.FindElements(by).ToList();
         }
 
         public string Text => element.Text;
@@ -34,7 +34,7 @@ namespace Module8.Wrappers
 
         public string TagName => throw new NotImplementedException();
 
-        public bool Enabled => throw new NotImplementedException();
+        public bool Enabled => element.Enabled;
 
         public bool Selected => throw new NotImplementedException();
 

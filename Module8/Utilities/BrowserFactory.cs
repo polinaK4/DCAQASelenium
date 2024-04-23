@@ -8,8 +8,9 @@ namespace Module8.Utilities
     {
         [ThreadStatic]
         private static IWebDriver driver;
+        public static BrowserType browserType { get; set; } = BrowserType.Chrome; 
 
-        public static IWebDriver GetDriver(BrowserType browserType)
+        public static IWebDriver GetDriver()
         {
             if (driver == null)
             {

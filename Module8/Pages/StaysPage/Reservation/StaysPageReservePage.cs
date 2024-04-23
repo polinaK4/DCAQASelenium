@@ -1,4 +1,6 @@
-﻿using Module8.PoliWebElements;
+﻿using Module8.Helpers;
+using Module8.PoliWebElements;
+using Module8.Wrappers;
 using OpenQA.Selenium;
 
 namespace Module8.Pages.StaysPage.Reservation
@@ -9,7 +11,7 @@ namespace Module8.Pages.StaysPage.Reservation
         private TextboxElement lastNameInput => new TextboxElement(By.XPath("//*[@id='lastname']"));
         private TextboxElement emailInput => new TextboxElement(By.XPath("//*[@id='email']"));
         private TextboxElement phoneInput => new TextboxElement(By.XPath("//*[@id='phone']"));
-        private IWebElement finalDetailsButton => ScrollToGetElement(By.XPath("//button[@name='book']"));
+        private PoliWebElement finalDetailsButton => driver.ScrollAndGetElement(By.XPath("//button[@name='book']"));
         public StaysPageReservePage(IWebDriver driver) : base(driver)
         {
 

@@ -31,7 +31,7 @@ namespace Module8.Tests
         }
 
         [Test]
-        public void SearchHotels() // 10 works
+        public void SearchHotels()
         {            
             searchElements.EnterDestination("Krakow");
             var fromToDateSelector = searchElements.ClickDateSelector();
@@ -42,7 +42,7 @@ namespace Module8.Tests
         }
 
         [Test]
-        public void SearchingForHotelsInASpecificCityWithFilters() // 10 works
+        public void SearchingForHotelsInASpecificCityWithFilters()
         {
             staysPageFilters = new StaysPageFilters(driver);
             staysPageSorting = new StaysPageSorting(driver);
@@ -65,7 +65,7 @@ namespace Module8.Tests
             staysPageFilters.ClickPropertyRating5stars();
             staysPageHotelsResults.CheckHotelsRating("5 out of 5");
             staysPageSorting.SelectSortingPricelowestFirst();
-            staysPageSorting.CheckPricesSortingAsc();
+            ClassicAssert.That(staysPageSorting.IsHotelsPricesAscending(), Is.Ordered.Ascending);
             staysPageFilters.ClickFacilitiesShowMoreLessButton();
             staysPageFilters.ClickFacilitiesFitnessCentre();
             staysPageHotelsResults.CheckAppliedFilters("Fitness centre");
@@ -100,7 +100,7 @@ namespace Module8.Tests
         }
 
         [Test]
-        public void VerifyingLanguageChange() // 10 works
+        public void VerifyingLanguageChange()
         {
             header = new Header(driver);
             header.ClickLanguageButton();
@@ -109,7 +109,7 @@ namespace Module8.Tests
         }
 
         [Test]
-        public void VerifyInvalidLogin() // 10 works
+        public void VerifyInvalidLogin()
         {
             header = new Header(driver);
             var signInPage = header.ClickSignInButton();
