@@ -1,7 +1,6 @@
-﻿using FinalProject.Pages.Authorization;
+﻿using FinalProject.Pages.LoginPage;
 using FinalProject.Pages.General;
 using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace FinalProject.Tests
 {
@@ -36,6 +35,15 @@ namespace FinalProject.Tests
             header.ClickUserProfileDropdown();
             header.ClickLogoutButton();
             VerifyUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        }
+
+        [Test]
+        public void ResetPassword()
+        {
+            var forgotpasswordPage = loginPage.ClickForgotPasswordButton();
+            forgotpasswordPage.EnterUsername("test");
+            forgotpasswordPage.ClickResetPasswordButton();
+            forgotpasswordPage.VerifyResetPasswordFormHeader("Reset Password link sent successfully");
         }
     }
 }

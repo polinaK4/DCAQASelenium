@@ -1,24 +1,31 @@
-﻿using FinalProject.Helpers;
-using FinalProject.Utilities;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace FinalProject.Pages.WebElements
 {
-    public class TextBoxElement
+    public class TextboxElement : PoliWebElement
     {
-        protected IWebDriver driver => BrowserFactory.GetDriver(BrowserType.Chrome);
-        protected IWebElement element;
-        protected By By;
-
-        public TextBoxElement(By By)
+        public TextboxElement(By By) : base(By)
         {
-            element = driver.WaitForElementVisible(By, 10);
+
+        }
+
+        public void ClearWebField()
+        {
+            while (!element.GetAttribute("value").Equals(""))
+            {
+                element.SendKeys(Keys.Backspace);
+            }
         }
 
         public void EnterText(string text)
         {
-            this.element.Clear();
-            this.element.SendKeys(text);
+           ClearWebField();
+           element.SendKeys(text);
         }
+
+        //public void EnterText(string text)
+        //{
+        //    element.SendKeys(text);
+        //}
     }
 }

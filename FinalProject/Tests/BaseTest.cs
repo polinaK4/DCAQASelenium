@@ -12,8 +12,7 @@ namespace FinalProject.Tests
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            driver = BrowserFactory.GetDriver(BrowserType.Chrome);
-            //driver = BrowserFactory.GetDriver(BrowserType.Firefox);
+            driver = BrowserFactory.GetDriver();
         }
 
         [OneTimeTearDown]

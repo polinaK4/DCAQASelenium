@@ -1,40 +1,32 @@
-﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FinalProject.Pages.WebElements;
+using OpenQA.Selenium;
 
 namespace FinalProject.Pages.PIM
 {
     public class PimAddEmployee : BasePage
     {
-        private IWebElement firstNameInputField => GetElementAfterItVisible(By.XPath("//*[@name='firstName']"));
-        private IWebElement middleNameInputField => GetElementAfterItVisible(By.XPath("//*[@name='middleName']"));
-        private IWebElement lastNameInputField => GetElementAfterItVisible(By.XPath("//*[@name='lastName']"));
-        private IWebElement employeeIdInputField => GetElementAfterItVisible(By.XPath("//*[@class='oxd-form-row']/div[2]//input"));
-        private IWebElement saveButton => GetElementAfterItVisible(By.XPath("//*[@type='submit']"));
+        private TextboxElement firstNameInputField => new TextboxElement(By.XPath("//*[@name='firstName']"));
+        private TextboxElement middleNameInputField => new TextboxElement(By.XPath("//*[@name='middleName']"));
+        private TextboxElement lastNameInputField => new TextboxElement(By.XPath("//*[@name='lastName']"));
+        private TextboxElement employeeIdInputField => new TextboxElement(By.XPath("//*[@class='oxd-form-row']/div[2]//input"));
+        private ButtonElement saveButton => new ButtonElement(By.XPath("//*[@type='submit']"));
 
         public PimAddEmployee(IWebDriver driver) : base(driver)
         {
 
         }
 
-        public void EnterFirstName(string firstname) => firstNameInputField.SendKeys(firstname);
+        public void EnterFirstName(string firstname) => firstNameInputField.EnterText(firstname);
 
-        public void EnterMiddleName(string middlename) => middleNameInputField.SendKeys(middlename);
+        public void EnterMiddleName(string middlename) => middleNameInputField.EnterText(middlename);
 
-        public void EnterLastName(string lastname) => lastNameInputField.SendKeys(lastname);
+        public void EnterLastName(string lastname) => lastNameInputField.EnterText(lastname);
 
-        public void EnterEmployeeId(string id)
+        public void EnterEmployeeId(string id) => employeeIdInputField.EnterText(id);
+
+        public PimEmployeeListPersonalDetails ClickSaveEmployeeButton()
         {
-            employeeIdInputField.Clear();
-            employeeIdInputField.SendKeys(id);
-        }
-
-        public PimEmployeeListPersonalDetails ClickSaveEmployee()
-        {
-            saveButton.Click();
+            saveButton.ClickWhenReady();
             return new PimEmployeeListPersonalDetails(driver);
         }
     }

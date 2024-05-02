@@ -27,7 +27,7 @@ namespace FinalProject.Tests
             loginPage.EnterPassword("admin123");
             loginPage.ClickLoginButton();
             leftSideMenuBar.EnterKeyWordToSearch("my");
-            leftSideMenuBar.MenuOptionsText().ForEach(result => { StringAssert.Contains("my", result); });
+            leftSideMenuBar.MenuOptionsTextToLower().ForEach(result => { StringAssert.Contains("my", result); });
             header.ClickUserProfileDropdown();
             header.ClickLogoutButton();
             VerifyUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");

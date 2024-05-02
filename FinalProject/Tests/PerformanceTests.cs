@@ -2,6 +2,7 @@
 using FinalProject.Pages.General;
 using FinalProject.Pages.Performance;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace FinalProject.Tests
 {
@@ -9,8 +10,6 @@ namespace FinalProject.Tests
     {
         private LoginPage loginPage;
         private LeftSideMenuBar leftSideMenuBar;
-        //private PerformanceDefault_ManageReviewsPage performanceManageReviewsPage;
-        //private PerformanceKpiPage performanceKpiPage;
 
         [SetUp]
         public void Setup()
@@ -29,8 +28,16 @@ namespace FinalProject.Tests
             var performanceManageReviewsPage = leftSideMenuBar.ClickPerformanceOption();
             performanceManageReviewsPage.ClickConfigureDropdown();
             var performanceKpiPage = performanceManageReviewsPage.ClickKpiOption();
-
-
+            var addKpiPage = performanceKpiPage.ClickAddButton();
+            addKpiPage.EnterKpi("1 Kpi test");
+            addKpiPage.ClickJobTitleDropdown();
+            addKpiPage.SelectJobAutomationTester();
+            addKpiPage.ClickSaveButton();           
+            ClassicAssert.Contains("1 Kpi test", performanceKpiPage.First50KpiTitles()); // нужно стабилизировать (wait)
+            ClassicAssert.Contains("Automaton Tester", performanceKpiPage.FirstPageJobTitlesText());
+            performanceKpiPage.ClickDeleteButton();
+            performanceKpiPage.ClickConfirmDeleteButton();
+            ClassicAssert.That(performanceKpiPage.First50KpiTitles(), Does.Not.Contain("1 Kpi test"));
         }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using FinalProject.Helpers;
+using FinalProject.Pages.WebElements;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinalProject.Pages
 {
@@ -17,19 +13,14 @@ namespace FinalProject.Pages
             this.driver = driver;
         }
 
-        public IWebElement GetElementAfterItVisible(By element)
-        {
-            return driver.WaitForElementVisible(element, 20);
-        }
-
-        public List<IWebElement> GetListOfElements(By element)
-        {
-            return driver.FindElements(element).ToList();
-        }
-
         public void WaitForExpectedText(IWebElement element, string expectedText)
         {
             driver.WaitForTextToBePresentInElement(element, 10, expectedText);
+        }
+
+        public void WaitElementBeSelected(PoliWebElement element)
+        {
+            driver.WaitForElementCanBeSelected(element, 10);
         }
     }
 }
