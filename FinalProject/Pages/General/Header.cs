@@ -1,4 +1,4 @@
-﻿using FinalProject.Pages.Authorization;
+﻿using FinalProject.Pages.Login;
 using FinalProject.Pages.WebElements;
 using OpenQA.Selenium;
 
@@ -6,19 +6,19 @@ namespace FinalProject.Pages.General
 {
     public class Header : BasePage
     {
-        private PoliWebElement userProfileDropdown => new PoliWebElement(By.XPath("//*[@class='oxd-userdropdown-tab']"));
-        private PoliWebElement logoutOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/auth/logout']"));        
+        private PoliWebElement _userProfileDropdown => new PoliWebElement(By.XPath("//*[@class='oxd-userdropdown-tab']"));
+        private PoliWebElement _logoutOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/auth/logout']"));        
 
         public Header(IWebDriver driver) : base(driver)
         {
 
         }
 
-        public void ClickUserProfileDropdown() => userProfileDropdown.Click();
+        public void ClickUserProfileDropdown() => _userProfileDropdown.Click();
 
         public LoginPage ClickLogoutButton()
         {
-            logoutOption.Click();
+            _logoutOption.Click();
             return new LoginPage(driver);
         }
     }

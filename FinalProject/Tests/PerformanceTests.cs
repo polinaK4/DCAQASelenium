@@ -1,8 +1,9 @@
-﻿using FinalProject.Pages.Authorization;
+﻿using FinalProject.Pages.Login;
 using FinalProject.Pages.General;
-using FinalProject.Pages.Performance;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
+using FinalProject.Pages.Performance;
+using FinalProject.Pages.CommonElements;
 
 namespace FinalProject.Tests
 {
@@ -10,6 +11,9 @@ namespace FinalProject.Tests
     {
         private LoginPage loginPage;
         private LeftSideMenuBar leftSideMenuBar;
+        private PerformanceManageReviewsPage performanceManageReviewsPage;
+        private FieldOptionsDropdown fieldOptionsDropdown;
+        private ConfirmationPopup confirmationPopups;
 
         [SetUp]
         public void Setup()
@@ -17,27 +21,30 @@ namespace FinalProject.Tests
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
             loginPage = new LoginPage(driver);
             leftSideMenuBar = new LeftSideMenuBar(driver);
+            performanceManageReviewsPage = new PerformanceManageReviewsPage(driver);
+            fieldOptionsDropdown = new FieldOptionsDropdown(driver);
+            confirmationPopups = new ConfirmationPopup(driver);
+            loginPage.EnterUsername("Admin");
+            loginPage.EnterPassword("admin123");
+            loginPage.ClickLoginButton();
+            leftSideMenuBar.ClickPerformanceOption();
         }
 
         [Test]
         public void ValidatePerformanceManagementFunctionality()
         {
-            loginPage.EnterUsername("Admin");
-            loginPage.EnterPassword("admin123");
-            loginPage.ClickLoginButton();
-            var performanceManageReviewsPage = leftSideMenuBar.ClickPerformanceOption();
             performanceManageReviewsPage.ClickConfigureDropdown();
             var performanceKpiPage = performanceManageReviewsPage.ClickKpiOption();
             var addKpiPage = performanceKpiPage.ClickAddButton();
             addKpiPage.EnterKpi("1 Kpi test");
             addKpiPage.ClickJobTitleDropdown();
-            addKpiPage.SelectJobAutomationTester();
-            addKpiPage.ClickSaveButton();           
-            ClassicAssert.Contains("1 Kpi test", performanceKpiPage.First50KpiTitles()); // нужно стабилизировать (wait)
-            ClassicAssert.Contains("Automaton Tester", performanceKpiPage.FirstPageJobTitlesText());
-            performanceKpiPage.ClickDeleteButton();
-            performanceKpiPage.ClickConfirmDeleteButton();
-            ClassicAssert.That(performanceKpiPage.First50KpiTitles(), Does.Not.Contain("1 Kpi test"));
+            fieldOptionsDropdown.SelectSpecificOption("Automaton Tester");
+            addKpiPage.ClickSaveButton();            
+            ClassicAssert.Contains("1 Kpi test", performanceKpiPage.GetTableCurrentPageKPITitles());
+            ClassicAssert.Contains("Automaton Tester", performanceKpiPage.GetTableCurrentPageJobTitles());
+            performanceKpiPage.ClickDeleteButtonForSpecificKPI("1 Kpi test");
+            confirmationPopups.ClickConfirmButton();
+            ClassicAssert.That(performanceKpiPage.GetTableCurrentPageKPITitles(), Does.Not.Contain("1 Kpi test"));
         }
     }
 }

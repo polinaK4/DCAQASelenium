@@ -1,4 +1,4 @@
-﻿using FinalProject.Pages.Authorization;
+﻿using FinalProject.Pages.Login;
 using FinalProject.Pages.General;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;

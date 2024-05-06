@@ -6,9 +6,9 @@ namespace FinalProject.Pages.Admin.Job
 {
     public class JobTitlesPage : BasePage
     {
-        private ButtonElement addButton => new ButtonElement(By.XPath("//*[@class='orangehrm-header-container']//button"));
-        private List<PoliWebElement> tableCurrentPageJobTitles => driver.GetPoliWebElementList(By.XPath("//*[@class='oxd-table-body']/div/div/div[2]"));
-        private List<PoliWebElement> jobTitlesDeleteButtons => driver.GetPoliWebElementList(By.XPath("//*[@class='oxd-table-cell-actions']/button[1]"));
+        private ButtonElement _addButton => new ButtonElement(By.XPath("//*[@class='orangehrm-header-container']//button"));
+        private List<PoliWebElement> _tableSelectedPageJobTitles => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@class='oxd-table-body']/div/div/div[2]"), 10, 1);
+        private List<PoliWebElement> _tableDeleteButtons => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div//button[1]"), 10, 1);
 
         public JobTitlesPage(IWebDriver driver) : base(driver)
         {
@@ -17,16 +17,16 @@ namespace FinalProject.Pages.Admin.Job
 
         public AddJobTitlePage ClickJobTitlesOption()
         {
-            addButton.ClickWhenReady();
+            _addButton.ClickWhenReady();
             return new AddJobTitlePage(driver);
         }
 
-        public List<String> GetCurrentPageJobTitlesList() => tableCurrentPageJobTitles.Select(title => title.Text).ToList();
+        public List<String> GetSelectedPageJobTitles() => _tableSelectedPageJobTitles.Select(title => title.Text).ToList();
 
         public void ClickDeleteButtonForSpecificJobTitle(string expectedTitle)
         {
-            int i = tableCurrentPageJobTitles.FindIndex(v => v.Text == expectedTitle);
-            jobTitlesDeleteButtons[i].Click();
+            int i = _tableSelectedPageJobTitles.FindIndex(v => v.Text == expectedTitle);
+            _tableDeleteButtons[i].Click();
         }
     }
 }

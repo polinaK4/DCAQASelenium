@@ -11,50 +11,50 @@ namespace FinalProject.Pages.General
 {
     public class LeftSideMenuBar : BasePage
     {
-        private TextboxElement searchInputField => new TextboxElement(By.XPath("//*[@class='oxd-main-menu-search']/input"));
-        private List<PoliWebElement> menuOptions => driver.GetPoliWebElementList(By.XPath("//*[@class='oxd-main-menu']//span"));
-        private PoliWebElement adminOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/admin/viewAdminModule']"));
-        private PoliWebElement leaveOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/leave/viewLeaveModule']"));
-        private PoliWebElement recruitmentOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/recruitment/viewRecruitmentModule']"));
-        private PoliWebElement performanceOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/performance/viewPerformanceModule']"));
-        private PoliWebElement pimOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/pim/viewPimModule']"));        
+        private TextboxElement _searchInputField => new TextboxElement(By.XPath("//*[@class='oxd-main-menu-search']/input"));
+        private List<PoliWebElement> _menuOptions => driver.GetPoliWebElementList(By.XPath("//*[@class='oxd-main-menu']//span"));
+        private PoliWebElement _adminOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/admin/viewAdminModule']"));
+        private PoliWebElement _leaveOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/leave/viewLeaveModule']"));
+        private PoliWebElement _recruitmentOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/recruitment/viewRecruitmentModule']"));
+        private PoliWebElement _performanceOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/performance/viewPerformanceModule']"));
+        private PoliWebElement _pimOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/pim/viewPimModule']"));        
 
         public LeftSideMenuBar(IWebDriver driver) : base(driver)
         {
 
         }
 
-        public AdminDefault_UserManagementPage ClickAdminOption()
+        public AdminUserManagementPage ClickAdminOption()
         {
-            adminOption.Click();
-            return new AdminDefault_UserManagementPage(driver);
+            _adminOption.Click();
+            return new AdminUserManagementPage(driver);
         }
 
         public LeaveListPage ClickLeaveOption()
         {
-            leaveOption.Click();
+            _leaveOption.Click();
             return new LeaveListPage(driver);
         }
 
         public RecruitmentCandidatesPage ClickRecruitmentOption()
         {
-            recruitmentOption.Click();
+            _recruitmentOption.Click();
             return new RecruitmentCandidatesPage(driver);
         }
 
-        public PerformanceDefault_ManageReviewsPage ClickPerformanceOption()
+        public PerformanceManageReviewsPage ClickPerformanceOption()
         {
-            performanceOption.Click();
-            return new PerformanceDefault_ManageReviewsPage(driver);
+            _performanceOption.Click();
+            return new PerformanceManageReviewsPage(driver);
         }
 
-        public PimEmployeeListPage ClickPimOption()
+        public EmployeeListPage ClickPimOption()
         {
-            pimOption.Click();
-            return new PimEmployeeListPage(driver);
+            _pimOption.Click();
+            return new EmployeeListPage(driver);
         }
-        public void EnterKeyWordToSearch(string keyword) => searchInputField.EnterText(keyword);
+        public void EnterKeyWordToSearch(string keyword) => _searchInputField.EnterText(keyword);
 
-        public List<String> MenuOptionsTextToLower() => menuOptions.Select(option => option.Text.ToLower()).ToList();
+        public List<String> MenuOptionsTextToLower() => _menuOptions.Select(option => option.Text.ToLower()).ToList();
     }
 }

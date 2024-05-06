@@ -21,6 +21,6 @@ namespace FinalProject.Pages
         public void WaitElementBeSelected(PoliWebElement element)
         {
             driver.WaitForElementCanBeSelected(element, 10);
-        }
+        }        
     }
 }

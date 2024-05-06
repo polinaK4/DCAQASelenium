@@ -26,5 +26,10 @@ namespace FinalProject.Tests
             string pageURL = driver.Url;
             ClassicAssert.AreEqual(url, pageURL);
         }
+
+        public void RefreshPage()
+        {
+            driver.Navigate().Refresh();
+        }
     }
 }

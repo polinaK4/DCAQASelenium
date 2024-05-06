@@ -1,9 +1,10 @@
 ﻿using FinalProject.Pages.Admin;
-using FinalProject.Pages.LoginPage;
+using FinalProject.Pages.Login;
 using FinalProject.Pages.General;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using FinalProject.Pages.CommonElements;
+using System.Drawing;
 
 namespace FinalProject.Tests
 {
@@ -11,17 +12,18 @@ namespace FinalProject.Tests
     {
         private LoginPage loginPage;
         private LeftSideMenuBar leftSideMenuBar;
-        private AdminDefault_UserManagementPage adminUserManagementPage;
-        private ConfirmationPopups confirmationPopups;
+        private AdminUserManagementPage adminUserManagementPage;
+        private ConfirmationPopup confirmationPopups;
 
         [SetUp]
         public void Setup()
         {
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
+            driver.Manage().Window.Size = new Size(1024, 768);
             loginPage = new LoginPage(driver);
             leftSideMenuBar = new LeftSideMenuBar(driver);
-            adminUserManagementPage = new AdminDefault_UserManagementPage(driver);
-            confirmationPopups = new ConfirmationPopups(driver);
+            adminUserManagementPage = new AdminUserManagementPage(driver);
+            confirmationPopups = new ConfirmationPopup(driver);
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
             loginPage.ClickLoginButton();
@@ -33,7 +35,7 @@ namespace FinalProject.Tests
         {
             ClassicAssert.AreEqual("User Management", adminUserManagementPage.GetFirstTabOptionText());
             adminUserManagementPage.ClickJobOption();
-            ClassicAssert.Contains("Job Titles", adminUserManagementPage.GetJobDropdownOptionsTexts()); // нужно стабилизировать (wait)
+            ClassicAssert.Contains("Job Titles", adminUserManagementPage.GetJobDropdownOptionsTexts());
         }
 
         [Test]
@@ -41,10 +43,11 @@ namespace FinalProject.Tests
         {
             adminUserManagementPage.ClickMoreOption();
             var nationalitiesPage = adminUserManagementPage.ClickNationalitiesOption();
-            var editNationalityPage = nationalitiesPage.ClickEditFirstNationalityButton();
-            editNationalityPage.EnterTextToNameField("Afghan 1");
+            nationalitiesPage.VerifyVacanciesFormHeader("Nationalities");
+            var editNationalityPage = nationalitiesPage.ClickEditButtonForSpecificNationality("Dominican");
+            editNationalityPage.EnterTextToNameField("Dominican 1");
             editNationalityPage.ClickSaveButton();
-            ClassicAssert.AreEqual("Afghan 1", nationalitiesPage.GetFirstNationalityName());
+            ClassicAssert.Contains("Dominican 1", nationalitiesPage.GetTableCurrentPageNationalityTitles());
         }
 
         [Test]
@@ -55,33 +58,33 @@ namespace FinalProject.Tests
             var addJobTitlePage = jobTitlesPage.ClickJobTitlesOption();
             addJobTitlePage.EnterJobTitle("Aut Title");
             addJobTitlePage.ClickSaveButton();
-            ClassicAssert.Contains("Aut Title", jobTitlesPage.GetCurrentPageJobTitlesList());//стабилизировать
+            ClassicAssert.Contains("Aut Title", jobTitlesPage.GetSelectedPageJobTitles());//стабилизировать
         }
 
         [Test]
         public void SearchAdmin()
         {
-            adminUserManagementPage.EnterUsername("test123 poli");
+            adminUserManagementPage.EnterUsername("FMLName");
             adminUserManagementPage.ClickSearchButton();
             var editUserPage = adminUserManagementPage.ClickEditButtonForFirstResult();
-            ClassicAssert.AreEqual("Admin", editUserPage.GetUserRoleValue());
-            ClassicAssert.AreEqual("Charles  Carter", editUserPage.GetEmployeeNameValue());
+            ClassicAssert.AreEqual("ESS", editUserPage.GetUserRoleValue());
+            ClassicAssert.AreEqual("Qwerty Qwerty LName", editUserPage.GetEmployeeNameValue());
             ClassicAssert.AreEqual("Enabled", editUserPage.GetStatusValue());
-            ClassicAssert.AreEqual("test123 poli", editUserPage.GetUsernameValue());
+            ClassicAssert.AreEqual("FMLName", editUserPage.GetUsernameValue());
         }
 
         [Test]
         public void ValidateJobTitlesManagementFunctionality()
         {
-            adminUserManagementPage.ClickJobOption(); //вынксти Job Titles отдельно?
+            adminUserManagementPage.ClickJobOption();
             var jobTitlesPage = adminUserManagementPage.ClickJobTitlesOption();
             var addJobTitlePage = jobTitlesPage.ClickJobTitlesOption();
             addJobTitlePage.EnterJobTitle("Aut2 Title");
             addJobTitlePage.ClickSaveButton();
-            ClassicAssert.Contains("Aut Title", jobTitlesPage.GetCurrentPageJobTitlesList());//стабилизировать
+            ClassicAssert.Contains("Aut2 Title", jobTitlesPage.GetSelectedPageJobTitles());
             jobTitlesPage.ClickDeleteButtonForSpecificJobTitle("Aut2 Title");
-            confirmationPopups.ClickConfirmDeleteButton();
-            ClassicAssert.That(jobTitlesPage.GetCurrentPageJobTitlesList(), Does.Not.Contain("Aut2 Title"));
+            confirmationPopups.ClickConfirmButton();
+            ClassicAssert.That(jobTitlesPage.GetSelectedPageJobTitles(), Does.Not.Contain("Aut2 Title"));
         }
     }
 }

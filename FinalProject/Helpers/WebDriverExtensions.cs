@@ -2,8 +2,6 @@
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
 using FinalProject.Pages.WebElements;
-using OpenQA.Selenium.Support.Extensions;
-using System.Xml.Linq;
 
 namespace FinalProject.Helpers
 {
@@ -47,12 +45,6 @@ namespace FinalProject.Helpers
         //    return element.ToPoliWebElement();
         //}
 
-        //public static IWebElement WaitForElementVisible(this IWebDriver driver, By by, int timeoutInSeconds)
-        //{
-        //    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-        //    return wait.Until(ExpectedConditions.ElementIsVisible(by));
-        //}
-
         public static void WaitForElementCanBeSelected(this IWebDriver driver, PoliWebElement element, int timeoutInSeconds)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
@@ -63,7 +55,6 @@ namespace FinalProject.Helpers
             });
         }
 
-
         public static void WaitForTextToBePresentInElement(this IWebDriver driver, IWebElement element, int timeoutInSeconds, string expectedText)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
@@ -73,11 +64,5 @@ namespace FinalProject.Helpers
                 return true;
             });
         }
-
-        //public static void WaitForTextNotToBePresentInElement(this IWebDriver driver, IWebElement element, int timeoutInSeconds, string expectedText)
-        //{
-        //    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-        //    wait.Until(el => element.Text != expectedText == true);
-        //}
     }
 }

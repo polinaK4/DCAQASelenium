@@ -14,7 +14,6 @@ namespace FinalProject.Pages.WebElements
 
         public PoliWebElement(By By)
         {
-            //element = driver.WaitForElementVisible(By, 10);
             element = driver.GetElement(By);
         }
 

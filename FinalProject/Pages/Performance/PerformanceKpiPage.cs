@@ -6,11 +6,10 @@ namespace FinalProject.Pages.Performance
 {
     public class PerformanceKpiPage : BasePage
     {
-        private ButtonElement addButton => new ButtonElement(By.XPath("//*[@class='orangehrm-header-container']/button"));
-        private List<PoliWebElement> first50CardsKpiTitles => driver.GetPoliWebElementList(By.XPath("//*[@class='oxd-table-body']//*[@role='cell'][2]/div"));
-        private List<PoliWebElement> first50CardsJobTitles => driver.GetPoliWebElementList(By.XPath("//*[@class='oxd-table-body']//*[@role='cell'][3]/div"));
-        private ButtonElement deleteButton => new ButtonElement(By.XPath("//*[@role='rowgroup']//*[@class='oxd-table-card'][1]//button[2]"));
-        private ButtonElement confirmDeleteButton => new ButtonElement(By.XPath("//*[@class='orangehrm-modal-footer']/button[2]"));        
+        private ButtonElement _addButton => new ButtonElement(By.XPath("//*[@class='orangehrm-header-container']/button"));
+        private List<PoliWebElement> _tableSelectedPageKpis => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div/div[2]"),10,1);
+        private List<PoliWebElement> _tableSelectedPageJobTitles => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div/div[3]"),10,1);     
+        private List<PoliWebElement> _tableDeleteButtons => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div//button[2]"), 10, 1);
 
         public PerformanceKpiPage(IWebDriver driver) : base(driver)
         {
@@ -19,16 +18,18 @@ namespace FinalProject.Pages.Performance
 
         public AddKpiPage ClickAddButton()
         {
-            addButton.Click();
+            _addButton.Click();
             return new AddKpiPage(driver);
         }
 
-        public List<String> First50KpiTitles() => first50CardsKpiTitles.Select(title => title.Text).ToList();
+        public List<String> GetTableCurrentPageKPITitles() => _tableSelectedPageKpis.Select(title => title.Text).ToList();
 
-        public List<String> FirstPageJobTitlesText() => first50CardsJobTitles.Select(title => title.Text).ToList();
+        public List<String> GetTableCurrentPageJobTitles() => _tableSelectedPageJobTitles.Select(title => title.Text).ToList();
 
-        public void ClickDeleteButton() => deleteButton.ClickWhenReady();
-
-        public void ClickConfirmDeleteButton() => confirmDeleteButton.ClickWhenReady();
+        public void ClickDeleteButtonForSpecificKPI(string expectedText)
+        {
+            int i = _tableSelectedPageKpis.FindIndex(v => v.Text == expectedText);
+            _tableDeleteButtons[i].Click();
+        }
     }
 }

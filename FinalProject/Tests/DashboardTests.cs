@@ -1,4 +1,4 @@
-﻿using FinalProject.Pages.Authorization;
+﻿using FinalProject.Pages.Login;
 using FinalProject.Pages.Dashboard;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
@@ -9,7 +9,6 @@ namespace FinalProject.Tests
     {
         private LoginPage loginPage;
         private DashboardPage dashboardPage;
-        //private LeftSideMenuBar leftSideMenuBar;
 
         [SetUp]
         public void Setup()
@@ -17,7 +16,6 @@ namespace FinalProject.Tests
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
             loginPage = new LoginPage(driver);
             dashboardPage = new DashboardPage(driver);
-            //leftSideMenuBar = new LeftSideMenuBar(driver);
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
             loginPage.ClickLoginButton();

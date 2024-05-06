@@ -1,10 +1,10 @@
-﻿using FinalProject.Pages.LoginPage;
+﻿using FinalProject.Pages.Login;
 using FinalProject.Pages.General;
 using NUnit.Framework;
 
 namespace FinalProject.Tests
 {
-    public class AuthorizationTests : BaseTest
+    public class LoginTests : BaseTest
     {
         private LoginPage loginPage;
         private Header header;

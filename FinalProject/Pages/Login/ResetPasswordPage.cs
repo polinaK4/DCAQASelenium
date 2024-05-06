@@ -1,7 +1,7 @@
 ﻿using FinalProject.Pages.WebElements;
 using OpenQA.Selenium;
 
-namespace FinalProject.Pages.LoginPage
+namespace FinalProject.Pages.Login
 {
     public class ResetPasswordPage : BasePage
     {
