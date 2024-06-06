@@ -1,14 +1,15 @@
-﻿using FinalProject.Pages.WebElements;
+﻿using FinalProject.Pages.Modules;
+using FinalProject.Pages.WebElements;
 using OpenQA.Selenium;
 
 namespace FinalProject.Pages.Leave
 {
     public class AddEntitlementsPage : BasePage
     {
-        private PoliWebElement _pageTitle => new PoliWebElement(By.XPath("//*[@class='oxd-layout-context']/div/div/p"));
-        private TextboxElement _employeeNameInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']/div[2]//input"));
-        private PoliWebElement _leaveTypeDropdown => new PoliWebElement(By.XPath("//*[@class='oxd-form']/div[3]/div/div[1]//div[@class='oxd-select-text-input']"));
-        private TextboxElement _entitlementInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']/div[3]/div/div[3]//input"));
+        private PoliWebElement _pageTitle => new PoliWebElement(By.XPath("//*[@class='orangehrm-card-container']/p"));
+        private TextboxElement _employeeNameInputField => new TextboxElement(By.XPath("//*[@class='oxd-autocomplete-wrapper']//input"));
+        private DropdownElement _leaveTypeDropdown => new DropdownElement(By.XPath("//div[@class='oxd-select-text-input' and .= '-- Select --']"));
+        private TextboxElement _entitlementInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']//*[@class='oxd-form-row'][3]//input"));
         private ButtonElement _saveButton => new ButtonElement(By.XPath("//button[@type='submit']"));
 
         public AddEntitlementsPage(IWebDriver driver) : base(driver)
@@ -20,9 +21,15 @@ namespace FinalProject.Pages.Leave
 
         public void ClickLeaveTypeDropdown() => _leaveTypeDropdown.Click();
 
+        public void SelectSpecificDropdownOption(string expectedText) => _leaveTypeDropdown.ClickSpecificOption(expectedText);
+
         public void EnterEntitlement(string days) => _entitlementInputField.EnterText(days);
 
-        public void ClickSaveButton() => _saveButton.ClickWhenReady();
+        public ConfirmationPopup ClickSaveButton() 
+        { 
+            _saveButton.ClickWhenReady();
+            return new ConfirmationPopup(driver);
+        }
 
         public void VerifyPageTitle(string expectedTitle) => WaitForExpectedText(_pageTitle, expectedTitle);
 

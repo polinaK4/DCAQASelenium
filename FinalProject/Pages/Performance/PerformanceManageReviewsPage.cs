@@ -5,8 +5,8 @@ namespace FinalProject.Pages.Performance
 {
     public class PerformanceManageReviewsPage : BasePage
     {
-        private PoliWebElement _topBarConfigureDropdown => new PoliWebElement(By.XPath("//*[@class='oxd-topbar-body-nav']//li[1]"));
-        private PoliWebElement _configureDropdownKpiOption => new PoliWebElement(By.XPath("//*[@class='oxd-dropdown-menu']//li[1]"));
+        private PoliWebElement _topBarConfigureDropdown => new PoliWebElement(By.XPath("//*[@aria-label='Topbar Menu']//span[.= 'Configure ']"));
+        private PoliWebElement _configureDropdownKpiOption => new PoliWebElement(By.XPath("//*[@aria-label='Topbar Menu']//a[.= 'KPIs']"));
 
         public PerformanceManageReviewsPage(IWebDriver driver) : base(driver)
         {

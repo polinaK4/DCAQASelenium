@@ -9,6 +9,7 @@ namespace FinalProject.Pages.WebElements
 
         public ButtonElement(By By) : base(By)
         {
+
         }
 
         public void ClickWhenReady()

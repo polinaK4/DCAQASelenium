@@ -7,13 +7,13 @@ namespace FinalProject.Pages.PIM.EmployeeDetails
     public class EmployeePersonalDetails : BasePage
     {
         private PoliWebElement _employeeName => new PoliWebElement(By.XPath("//*[@class='orangehrm-edit-employee-name']/h6"));
-        private TextboxElement _otherIdInputField => new TextboxElement(By.XPath("//*[@class='orangehrm-edit-employee-content']/div[1]/form/div[2]/div[1]/div[2]//input"));
-        private List<PoliWebElement> _customFieldsLabels => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@class='orangehrm-custom-fields']//form//label"), 10, 1);
-        private string _customFieldsInputTypeLocator = "//*[@class='orangehrm-custom-fields']//form/div[1]/div/div[{0}]//input";
-        private TextboxElement _customFieldInputTypeByIndex(string index) => new TextboxElement(By.XPath(string.Format(_customFieldsInputTypeLocator, index)));
-        private ButtonElement _savePersonalDetailsButton => new ButtonElement(By.XPath("//*[@class='oxd-form']/div[4]/button"));
-        private ButtonElement _saveCustomFieldsButton => new ButtonElement(By.XPath("//*[@class='orangehrm-custom-fields']//button"));
-        private ButtonElement _qualificationsPageButton => new ButtonElement(By.XPath("//*[@class='orangehrm-edit-employee-navigation']//*[@role='tab'][9]/a"));
+        private TextboxElement _otherIdInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']/*[@class='oxd-form-row'][2]/descendant::input[2]"));
+        private List<PoliWebElement> _customFieldsLabels => driver.GetPoliWebElementList(By.XPath("//*[@class='orangehrm-custom-fields']//form//label"), 1);
+        private string _customFieldsInputTypeLocator = "//*[@class='orangehrm-custom-fields']//*[@class='oxd-form-row']/descendant::input[{0}]";
+        private TextboxElement _CustomFieldInputTypeByIndex(string index) => new TextboxElement(By.XPath(string.Format(_customFieldsInputTypeLocator, index)));
+        private ButtonElement _savePersonalDetailsButton => new ButtonElement(By.XPath("//*[@class='orangehrm-edit-employee-content']/descendant::div[@class='oxd-form-actions'][1]//button[@type='submit']"));
+        private ButtonElement _saveCustomFieldsButton => new ButtonElement(By.XPath("//*[@class='orangehrm-custom-fields']//button[@type='submit']"));
+        private ButtonElement _qualificationsPageButton => new ButtonElement(By.XPath("//*[@role='tablist']//*[@role='tab']/a[.= 'Qualifications']"));
 
         public EmployeePersonalDetails(IWebDriver driver) : base(driver)
         {
@@ -37,13 +37,13 @@ namespace FinalProject.Pages.PIM.EmployeeDetails
         public void FindAndFillCustomFieldByLabel(string fieldLabel, string inputText)
         {
             int i = _customFieldsLabels.FindIndex(v => v.Text == fieldLabel);
-            _customFieldInputTypeByIndex($"{i + 1}").EnterText(inputText);
+            _CustomFieldInputTypeByIndex($"{i + 1}").EnterText(inputText);
         }
 
         public void VerifyTextInCustomFieldByLabel(string fieldLabel, string expectedText)
         {
             int i = _customFieldsLabels.FindIndex(v => v.Text == fieldLabel);
-            WaitForExpectedText(_customFieldInputTypeByIndex($"{i + 1}"), expectedText);
+            WaitForExpectedText(_CustomFieldInputTypeByIndex($"{i + 1}"), expectedText);
         }
 
         public void ClickSaveCustomFieldsButton() => _saveCustomFieldsButton.ClickWhenReady();

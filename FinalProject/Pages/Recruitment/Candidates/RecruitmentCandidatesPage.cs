@@ -1,4 +1,5 @@
 ﻿using FinalProject.Helpers;
+using FinalProject.Pages.Modules.Grid;
 using FinalProject.Pages.Recruitment.Vacancies;
 using FinalProject.Pages.WebElements;
 using OpenQA.Selenium;
@@ -7,12 +8,12 @@ namespace FinalProject.Pages.Recruitment.Candidates
 {
     public class RecruitmentCandidatesPage : BasePage
     {
-        private ButtonElement _topbarVacanciesPageButton => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']/ul/li[2]/a"));
+        public Grid grid => new Grid(driver);
+        private ButtonElement _topbarVacanciesPageButton => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//a[.= 'Vacancies']"));
         private ButtonElement _addButton => new ButtonElement(By.XPath("//*[@class='orangehrm-header-container']/button"));
-        private TextboxElement _candidateNameInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']/div[2]//input[@placeholder='Type for hints...']"));
+        private TextboxElement _candidateNameInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']/*[@class='oxd-form-row'][2]//div[contains(@class, 'oxd-grid-item')][1]//input"));
         private ButtonElement _searchButton => new ButtonElement(By.XPath("//button[@type='submit']"));
-        private List<PoliWebElement> _tableCurrentPageCheckboxes => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div/div[1]/div//i"), 10, 1);
-        private List<PoliWebElement> _tableSelectedPageCandidatesNames => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div/div[3]/div"), 10, 1);       
+        private DropdownElement dropdown => new DropdownElement(By.XPath("//*[@class='oxd-form']"));
 
         public RecruitmentCandidatesPage(IWebDriver driver) : base(driver)
         {
@@ -35,13 +36,7 @@ namespace FinalProject.Pages.Recruitment.Candidates
 
         public void ClickSearchButton() => _searchButton.ClickWhenReady();
 
-        public List<string> GetCandidatesNames() => _tableSelectedPageCandidatesNames.Select(option => option.Text).ToList();
-
-        public void SelectCheckboxForSpecificCandidate(string expectedText)
-        {
-            int i = _tableSelectedPageCandidatesNames.FindIndex(v => v.Text == expectedText);
-            _tableCurrentPageCheckboxes[i].Click();
-        }
+        public void SelectSpecificDropdownOption(string expectedText) => dropdown.ClickSpecificOption(expectedText);
 
     }
 }

@@ -1,10 +1,9 @@
 ﻿using FinalProject.Pages.Admin;
 using FinalProject.Pages.Login;
-using FinalProject.Pages.General;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
-using FinalProject.Pages.CommonElements;
 using System.Drawing;
+using FinalProject.Pages.Modules;
 
 namespace FinalProject.Tests
 {
@@ -13,7 +12,6 @@ namespace FinalProject.Tests
         private LoginPage loginPage;
         private LeftSideMenuBar leftSideMenuBar;
         private AdminUserManagementPage adminUserManagementPage;
-        private ConfirmationPopup confirmationPopups;
 
         [SetUp]
         public void Setup()
@@ -23,7 +21,6 @@ namespace FinalProject.Tests
             loginPage = new LoginPage(driver);
             leftSideMenuBar = new LeftSideMenuBar(driver);
             adminUserManagementPage = new AdminUserManagementPage(driver);
-            confirmationPopups = new ConfirmationPopup(driver);
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
             loginPage.ClickLoginButton();
@@ -44,10 +41,10 @@ namespace FinalProject.Tests
             adminUserManagementPage.ClickMoreOption();
             var nationalitiesPage = adminUserManagementPage.ClickNationalitiesOption();
             nationalitiesPage.VerifyVacanciesFormHeader("Nationalities");
-            var editNationalityPage = nationalitiesPage.ClickEditButtonForSpecificNationality("Dominican");
-            editNationalityPage.EnterTextToNameField("Dominican 1");
+            var editNationalityPage = nationalitiesPage.ClickEditButtonForSpecificNationality("Albanian");
+            editNationalityPage.EnterTextToNameField("Albanian 1");
             editNationalityPage.ClickSaveButton();
-            ClassicAssert.Contains("Dominican 1", nationalitiesPage.GetTableCurrentPageNationalityTitles());
+            ClassicAssert.Contains("Albanian 1", nationalitiesPage.grid.GetValuesOfSpecificColumn("Nationality"));
         }
 
         [Test]
@@ -58,19 +55,19 @@ namespace FinalProject.Tests
             var addJobTitlePage = jobTitlesPage.ClickJobTitlesOption();
             addJobTitlePage.EnterJobTitle("Aut Title");
             addJobTitlePage.ClickSaveButton();
-            ClassicAssert.Contains("Aut Title", jobTitlesPage.GetSelectedPageJobTitles());//стабилизировать
+            ClassicAssert.Contains("Aut Title", jobTitlesPage.grid.GetValuesOfSpecificColumn("Job Titles"));
         }
 
         [Test]
         public void SearchAdmin()
         {
-            adminUserManagementPage.EnterUsername("FMLName");
+            adminUserManagementPage.EnterUsername("FMLName1");
             adminUserManagementPage.ClickSearchButton();
-            var editUserPage = adminUserManagementPage.ClickEditButtonForFirstResult();
+            var editUserPage = adminUserManagementPage.ClickEditButtonForSpecificUser("FMLName1");
             ClassicAssert.AreEqual("ESS", editUserPage.GetUserRoleValue());
-            ClassicAssert.AreEqual("Qwerty Qwerty LName", editUserPage.GetEmployeeNameValue());
+            ClassicAssert.AreEqual("FName Mname LName", editUserPage.GetEmployeeNameValue());
             ClassicAssert.AreEqual("Enabled", editUserPage.GetStatusValue());
-            ClassicAssert.AreEqual("FMLName", editUserPage.GetUsernameValue());
+            ClassicAssert.AreEqual("FMLName1", editUserPage.GetUsernameValue());
         }
 
         [Test]
@@ -81,10 +78,10 @@ namespace FinalProject.Tests
             var addJobTitlePage = jobTitlesPage.ClickJobTitlesOption();
             addJobTitlePage.EnterJobTitle("Aut2 Title");
             addJobTitlePage.ClickSaveButton();
-            ClassicAssert.Contains("Aut2 Title", jobTitlesPage.GetSelectedPageJobTitles());
-            jobTitlesPage.ClickDeleteButtonForSpecificJobTitle("Aut2 Title");
-            confirmationPopups.ClickConfirmButton();
-            ClassicAssert.That(jobTitlesPage.GetSelectedPageJobTitles(), Does.Not.Contain("Aut2 Title"));
+            ClassicAssert.Contains("Aut2 Title", jobTitlesPage.grid.GetValuesOfSpecificColumn("Job Titles"));
+            var confirmationPopup = jobTitlesPage.grid.ClickDeleteButtonForSpecificRecord("Aut2 Title");
+            confirmationPopup.ClickConfirmButton();
+            ClassicAssert.That(jobTitlesPage.grid.GetValuesOfSpecificColumn("Job Titles"), Does.Not.Contain("Aut2 Title"));
         }
     }
 }

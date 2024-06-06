@@ -1,11 +1,11 @@
 ﻿using FinalProject.Pages.WebElements;
 using OpenQA.Selenium;
 
-namespace FinalProject.Pages.CommonElements
+namespace FinalProject.Pages.Modules
 {
     public class ConfirmationPopup : BasePage
     {
-        private ButtonElement _confirmButton => new ButtonElement(By.XPath("//*[@class='orangehrm-modal-footer']/button[2]"));
+        private ButtonElement _confirmButton => new ButtonElement(By.XPath("//*[@class='orangehrm-modal-footer']//button[2]"));
 
         public ConfirmationPopup(IWebDriver driver) : base(driver)
         {

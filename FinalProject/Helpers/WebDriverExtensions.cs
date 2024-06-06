@@ -31,10 +31,22 @@ namespace FinalProject.Helpers
             return result;
         }
 
-        public static List<PoliWebElement> WaitTillElementsCountAndGetList(this IWebDriver driver, By by, int timeoutInSeconds, int count)
+        public static DropdownElement ToDropdownElement(this IWebElement element)
         {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            wait.Until(drv => drv.FindElements(by).Count >= count);
+            return new DropdownElement(element);
+        }
+
+        public static List<DropdownElement> GetDropdownElementList(this IWebDriver driver, By by, int expectedMinCount)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(drv => drv.FindElements(by).Count >= expectedMinCount);
+            return driver.FindElements(by).Select(el => el.ToDropdownElement()).ToList();            
+        }
+
+        public static List<PoliWebElement> GetPoliWebElementList(this IWebDriver driver, By by, int expectedMinCount)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(drv => drv.FindElements(by).Count >= expectedMinCount);
             return driver.FindElements(by).Select(el => el.ToPoliWebElement()).ToList();;
         }
 

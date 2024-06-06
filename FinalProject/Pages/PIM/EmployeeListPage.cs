@@ -1,4 +1,4 @@
-﻿using FinalProject.Helpers;
+﻿using FinalProject.Pages.Modules.Grid;
 using FinalProject.Pages.PIM.Configuration;
 using FinalProject.Pages.PIM.EmployeeDetails;
 using FinalProject.Pages.WebElements;
@@ -8,15 +8,14 @@ namespace FinalProject.Pages.PIM
 {
     public class EmployeeListPage : BasePage
     {
-        private ButtonElement _topbarConfigurationButton => new ButtonElement(By.XPath("//*[@class='oxd-topbar-body-nav']//li[1]"));
-        private ButtonElement _topbarConfigurationCustomFieldsOption => new ButtonElement(By.XPath("//*[@class='oxd-topbar-body-nav']//li[1]/ul/li[2]"));        
-        private ButtonElement _topbarAddEmployeeButton => new ButtonElement(By.XPath("//*[@class='oxd-topbar-body-nav']//li[3]"));
-        private TextboxElement _employeeNameInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']/div[1]/div/div[1]//input"));
-        private TextboxElement _employeeIdInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']/div[1]/div/div[2]//input"));
-        private ButtonElement _searchButton => new ButtonElement(By.XPath("//button[@type='submit']"));     
-        private List<PoliWebElement> _tableEmployeeIds => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div/div[2]"), 10, 1);
-        private List<PoliWebElement> _tableEditButtons => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div//button[2]"), 10, 1);
-        private List<PoliWebElement> _tableDeleteButtons => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div//button[1]"), 10, 1);
+        public Grid grid => new Grid(driver);
+        private ButtonElement _topbarConfigurationButton => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//span[.= 'Configuration ']"));
+        private ButtonElement _topbarConfigurationCustomFieldsOption => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//a[.= 'Custom Fields']"));        
+        private ButtonElement _topbarAddEmployeeButton => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//a[.= 'Add Employee']"));
+        private TextboxElement _employeeNameInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']//div[contains(@class,'oxd-grid-item')][1]//input"));
+        private TextboxElement _employeeIdInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']//div[contains(@class,'oxd-grid-item')][2]//input"));
+        private ButtonElement _searchButton => new ButtonElement(By.XPath("//button[@type='submit']"));
+        private DropdownElement dropdown => new DropdownElement(By.XPath("//*[@class='oxd-form']"));
 
         public EmployeeListPage(IWebDriver driver) : base(driver)
         {
@@ -43,14 +42,13 @@ namespace FinalProject.Pages.PIM
 
         public void ClickSearchButton() => _searchButton.ClickWhenReady();
 
-        public List<String> GetCurrentPageTableIds() => _tableEmployeeIds.Select(title => title.Text).ToList();
-
-        public EmployeePersonalDetails ClickEditButtonForFirstTableRecord()
+        public EmployeePersonalDetails ClickEditButtonForSpecificEmployee(string rowValue)
         {
-            _tableEditButtons[0].Click();
+            grid.ClickEditButtonForSpecificRecord(rowValue);
             return new EmployeePersonalDetails(driver);
         }
 
-        public void ClickDeleteButtonForFirstTableRecord() => _tableDeleteButtons[0].Click();
+        public void SelectSpecificDropdownOption(string expectedText) => dropdown.ClickSpecificOption(expectedText);
+
     }
 }

@@ -7,7 +7,7 @@ using FinalProject.Pages.Recruitment.Candidates;
 using FinalProject.Pages.WebElements;
 using OpenQA.Selenium;
 
-namespace FinalProject.Pages.General
+namespace FinalProject.Pages.Modules
 {
     public class LeftSideMenuBar : BasePage
     {
@@ -17,7 +17,7 @@ namespace FinalProject.Pages.General
         private PoliWebElement _leaveOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/leave/viewLeaveModule']"));
         private PoliWebElement _recruitmentOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/recruitment/viewRecruitmentModule']"));
         private PoliWebElement _performanceOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/performance/viewPerformanceModule']"));
-        private PoliWebElement _pimOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/pim/viewPimModule']"));        
+        private PoliWebElement _pimOption => new PoliWebElement(By.XPath("//*[@href='/web/index.php/pim/viewPimModule']"));
 
         public LeftSideMenuBar(IWebDriver driver) : base(driver)
         {
@@ -55,6 +55,6 @@ namespace FinalProject.Pages.General
         }
         public void EnterKeyWordToSearch(string keyword) => _searchInputField.EnterText(keyword);
 
-        public List<String> MenuOptionsTextToLower() => _menuOptions.Select(option => option.Text.ToLower()).ToList();
+        public List<string> MenuOptionsTextToLower() => _menuOptions.Select(option => option.Text.ToLower()).ToList();
     }
 }

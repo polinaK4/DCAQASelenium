@@ -1,10 +1,9 @@
 ﻿using FinalProject.Pages.Login;
-using FinalProject.Pages.CommonElements;
-using FinalProject.Pages.General;
 using FinalProject.Pages.PIM;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using System.Drawing;
+using FinalProject.Pages.Modules;
 
 namespace FinalProject.Tests
 {
@@ -13,10 +12,7 @@ namespace FinalProject.Tests
         private LoginPage loginPage;
         private LeftSideMenuBar leftSideMenuBar;
         private EmployeeListPage employeeListPage;
-        private FieldOptionsDropdown fieldOptionsDropdown;
         private Header header;
-        private ConfirmationPopup confirmationPopups;
-        private CommonTableElements commonTableElements;
 
         [SetUp]
         public void Setup()
@@ -26,10 +22,7 @@ namespace FinalProject.Tests
             loginPage = new LoginPage(driver);
             leftSideMenuBar = new LeftSideMenuBar(driver);
             employeeListPage = new EmployeeListPage(driver);
-            fieldOptionsDropdown = new FieldOptionsDropdown(driver);
             header = new Header(driver);
-            confirmationPopups = new ConfirmationPopup(driver);
-            commonTableElements = new CommonTableElements(driver);
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
             loginPage.ClickLoginButton();
@@ -53,10 +46,10 @@ namespace FinalProject.Tests
         {
             employeeListPage.EnterEmployeeId("00392");
             employeeListPage.ClickSearchButton();
-            ClassicAssert.Contains("00392", employeeListPage.GetCurrentPageTableIds());
+            ClassicAssert.Contains("00392", employeeListPage.grid.GetValuesOfSpecificColumn("Id"));
             employeeListPage.EnterEmployeeId("55555");
             employeeListPage.ClickSearchButton();
-            commonTableElements.VerifyTableRecordsFoundLabel("No Records Found");
+            ClassicAssert.AreEqual("No Records Found", employeeListPage.grid.GetGridLabel());
             header.ClickUserProfileDropdown();
             header.ClickLogoutButton();
         }
@@ -65,10 +58,10 @@ namespace FinalProject.Tests
         public void EditEmployeeDetails()
         {
             employeeListPage.TypeToEmployeeNameForHint("timo");
-            fieldOptionsDropdown.SelectSpecificOption("Timothy Lewis Amiano");
+            employeeListPage.SelectSpecificDropdownOption("Timothy Lewis Amiano");
             employeeListPage.ClickSearchButton();
-            var employeePersonalDetailsPage = employeeListPage.ClickEditButtonForFirstTableRecord();
-            employeePersonalDetailsPage.EnterOtherId("1111"); 
+            var employeePersonalDetailsPage = employeeListPage.ClickEditButtonForSpecificEmployee("Timothy Lewis");
+            employeePersonalDetailsPage.EnterOtherId("1111");
             employeePersonalDetailsPage.ClickSavePersonalDetailsButton();
             RefreshPage();
             employeePersonalDetailsPage.VerifyEmployeeOtherId("1111");
@@ -81,11 +74,11 @@ namespace FinalProject.Tests
         {
             employeeListPage.EnterEmployeeId("5555");
             employeeListPage.ClickSearchButton();
-            employeeListPage.ClickDeleteButtonForFirstTableRecord();
-            confirmationPopups.ClickConfirmButton();
+            var confirmationPopup = employeeListPage.grid.ClickDeleteButtonForSpecificRecord("5555");
+            confirmationPopup.ClickConfirmButton();
             employeeListPage.EnterEmployeeId("5555");
             employeeListPage.ClickSearchButton();
-            commonTableElements.VerifyTableRecordsFoundLabel("No Records Found");
+            ClassicAssert.AreEqual("No Records Found", employeeListPage.grid.GetGridLabel());
             header.ClickUserProfileDropdown();
             header.ClickLogoutButton();
         }
@@ -98,12 +91,12 @@ namespace FinalProject.Tests
             var addCustomFieldsPage = customFieldsPage.ClickAddButton();
             addCustomFieldsPage.EnterFieldName("May test1");
             addCustomFieldsPage.ClickScreenDropdown();
-            fieldOptionsDropdown.SelectSpecificOption("Personal Details");
+            addCustomFieldsPage.SelectSpecificDropdownOption("Personal Details");
             addCustomFieldsPage.ClickTypeDropdown();
-            fieldOptionsDropdown.SelectSpecificOption("Text or Number");
+            addCustomFieldsPage.SelectSpecificDropdownOption("Text or Number");
             addCustomFieldsPage.ClickSaveButton();
             leftSideMenuBar.ClickPimOption();
-            var employeePersonalDetailsPage = employeeListPage.ClickEditButtonForFirstTableRecord();
+            var employeePersonalDetailsPage = employeeListPage.ClickEditButtonForSpecificEmployee("Amelia");
             ClassicAssert.Contains("May test1", employeePersonalDetailsPage.GetCustomFieldsLabels());
             employeePersonalDetailsPage.FindAndFillCustomFieldByLabel("May test1", "Test");
             employeePersonalDetailsPage.ClickSaveCustomFieldsButton();
@@ -116,15 +109,16 @@ namespace FinalProject.Tests
         {
             employeeListPage.EnterEmployeeId("01715");
             employeeListPage.ClickSearchButton();
-            var employeePersonalDetailsPage = employeeListPage.ClickEditButtonForFirstTableRecord();
+            var employeePersonalDetailsPage = employeeListPage.ClickEditButtonForSpecificEmployee("01715");
             var employeeQualificationsPage = employeePersonalDetailsPage.ClickQualificationsButton();
             employeeQualificationsPage.ClickSkillsAddButton();
             employeeQualificationsPage.ClickSkillsDropdown();
-            fieldOptionsDropdown.SelectSpecificOption("Copywriting");
+            employeeQualificationsPage.SelectSpecificDropdownOption("Copywriting");
             employeeQualificationsPage.EnterSkillsYearsOfExperience("5");
             employeeQualificationsPage.ClickSkillsSaveButton();
-            ClassicAssert.Contains("Copywriting", employeeQualificationsPage.GetTableSkillsNames());
-            ClassicAssert.AreEqual("5", employeeQualificationsPage.FindYearsOfExperienceForSpecificSkill("Copywriting"));           
+            var grid = employeeQualificationsPage.GetGrid("Skills");
+            ClassicAssert.Contains("Copywriting", grid.GetValuesOfSpecificColumn("Skill"));
+            ClassicAssert.AreEqual("5", grid.GetCellValueByOtherRowValue("Years of Experience", "Copywriting"));
         }
     }
 }

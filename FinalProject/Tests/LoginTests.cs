@@ -1,6 +1,6 @@
 ﻿using FinalProject.Pages.Login;
-using FinalProject.Pages.General;
 using NUnit.Framework;
+using FinalProject.Pages.Modules;
 
 namespace FinalProject.Tests
 {

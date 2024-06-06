@@ -1,4 +1,4 @@
-﻿using FinalProject.Helpers;
+﻿using FinalProject.Pages.Modules.Grid;
 using FinalProject.Pages.WebElements;
 using OpenQA.Selenium;
 
@@ -6,9 +6,8 @@ namespace FinalProject.Pages.Admin
 {
     public class NationalitiesPage : BasePage
     {
-        private PoliWebElement _nationalitiesFormHeader => new PoliWebElement(By.XPath("//*[@class='orangehrm-header-container']/h6"));        
-        private List<PoliWebElement> _tableSelectedPageNationalityTitles => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div/div[2]/div"), 10, 1);
-        private List<PoliWebElement> _tableSelectedPageEditButtons => driver.WaitTillElementsCountAndGetList(By.XPath("//*[@role='table']/div[2]/div/div//button[2]"), 10, 1);     
+        public Grid grid => new Grid(driver);
+        private PoliWebElement _nationalitiesFormHeader => new PoliWebElement(By.XPath("//*[@class='orangehrm-header-container']/h6"));            
 
         public NationalitiesPage(IWebDriver driver) : base(driver)
         {
@@ -17,13 +16,11 @@ namespace FinalProject.Pages.Admin
 
         public void VerifyVacanciesFormHeader(string expectedText) => WaitForExpectedText(_nationalitiesFormHeader, expectedText);
 
-        public EditNationalityPage ClickEditButtonForSpecificNationality(string expectedText)
+        public EditNationalityPage ClickEditButtonForSpecificNationality(string rowValue)
         {
-            int i = _tableSelectedPageNationalityTitles.FindIndex(v => v.Text == expectedText);
-            _tableSelectedPageEditButtons[i].Click();
+            grid.ClickEditButtonForSpecificRecord(rowValue);
             return new EditNationalityPage(driver);
         }
 
-        public List<String> GetTableCurrentPageNationalityTitles() => _tableSelectedPageNationalityTitles.Select(title => title.Text).ToList();
     }
 }

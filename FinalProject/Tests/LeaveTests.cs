@@ -1,9 +1,8 @@
 ﻿using FinalProject.Pages.Login;
-using FinalProject.Pages.CommonElements;
-using FinalProject.Pages.General;
 using FinalProject.Pages.Leave;
 using NUnit.Framework;
 using System.Drawing;
+using FinalProject.Pages.Modules;
 
 namespace FinalProject.Tests
 {
@@ -12,8 +11,6 @@ namespace FinalProject.Tests
         private LoginPage loginPage;
         private LeftSideMenuBar leftSideMenuBar;
         private LeaveListPage leaveListPage;
-        private FieldOptionsDropdown fieldOptionsDropdown;
-        private ConfirmationPopup confirmationPopup;
 
         [SetUp]
         public void Setup()
@@ -23,8 +20,6 @@ namespace FinalProject.Tests
             loginPage = new LoginPage(driver);
             leftSideMenuBar = new LeftSideMenuBar(driver);
             leaveListPage = new LeaveListPage(driver);
-            fieldOptionsDropdown = new FieldOptionsDropdown(driver);
-            confirmationPopup = new ConfirmationPopup(driver);
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
             loginPage.ClickLoginButton();
@@ -38,19 +33,19 @@ namespace FinalProject.Tests
             var addEntitlementsPage = leaveListPage.ClickAddEntitlementsOption();
             addEntitlementsPage.VerifyPageTitle("Add Leave Entitlement");
             addEntitlementsPage.TypeToEmployeeNameForHint("Amelia");
-            fieldOptionsDropdown.SelectSpecificOption("Amelia Brown");
+            addEntitlementsPage.SelectSpecificDropdownOption("Amelia Brown");
             addEntitlementsPage.ClickLeaveTypeDropdown();
-            fieldOptionsDropdown.SelectSpecificOption("CAN - Vacation");
+            addEntitlementsPage.SelectSpecificDropdownOption("CAN - Vacation");
             addEntitlementsPage.EnterEntitlement("10");
-            addEntitlementsPage.ClickSaveButton();
+            var confirmationPopup = addEntitlementsPage.ClickSaveButton();
             confirmationPopup.ClickConfirmButton();
             leaveListPage.ClickMoreOption();
             var assignLeavePage = leaveListPage.ClickAssignLeaveOption();
             assignLeavePage.VerifyPageTitle("Assign Leave");
             assignLeavePage.TypeToEmployeeNameForHint("Amelia");
-            fieldOptionsDropdown.SelectSpecificOption("Amelia Brown");
+            assignLeavePage.SelectSpecificDropdownOption("Amelia Brown");
             assignLeavePage.ClickLeaveTypeDropdown();
-            fieldOptionsDropdown.SelectSpecificOption("CAN - Vacation");
+            assignLeavePage.SelectSpecificDropdownOption("CAN - Vacation");
             assignLeavePage.EnterFromDate("2024-26-05");
             assignLeavePage.EnterToDate("2024-28-05");
             assignLeavePage.ClickAssignButton();

@@ -5,10 +5,10 @@ namespace FinalProject.Pages.Leave
 {
     public class LeaveListPage : BasePage
     {
-        private ButtonElement _topbarEntitlementsButton => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//li[3]/span"));
-        private ButtonElement _addEntitlementsOption => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//li[3]//li[1]/a"));
-        private ButtonElement _topbarMoreButton => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//li[6]/span"));        
-        private ButtonElement _assignLeaveMenuOption => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//li[6]//div[2]//a"));        
+        private ButtonElement _topbarEntitlementsButton => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//span[.= 'Entitlements ']"));
+        private ButtonElement _addEntitlementsOption => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//a[.= 'Add Entitlements']"));
+        private ButtonElement _topbarMoreButton => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//span[.= 'More ']"));        
+        private ButtonElement _assignLeaveMenuOption => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//a[.= 'Assign Leave ']"));        
 
         public LeaveListPage(IWebDriver driver) : base(driver)
         {

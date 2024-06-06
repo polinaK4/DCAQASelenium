@@ -1,7 +1,7 @@
 ﻿using FinalProject.Pages.Login;
-using FinalProject.Pages.General;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
+using FinalProject.Pages.Modules;
 
 namespace FinalProject.Tests
 {

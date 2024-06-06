@@ -9,7 +9,7 @@ namespace FinalProject.Pages.PIM
         private TextboxElement _firstNameInputField => new TextboxElement(By.XPath("//*[@name='firstName']"));
         private TextboxElement _middleNameInputField => new TextboxElement(By.XPath("//*[@name='middleName']"));
         private TextboxElement _lastNameInputField => new TextboxElement(By.XPath("//*[@name='lastName']"));
-        private TextboxElement _employeeIdInputField => new TextboxElement(By.XPath("//*[@class='oxd-form-row']/div[2]//input"));
+        private TextboxElement _employeeIdInputField => new TextboxElement(By.XPath("//*[@class='oxd-form-row']/div[contains(@class, 'oxd-grid-2')]//input"));
         private ButtonElement _saveButton => new ButtonElement(By.XPath("//*[@type='submit']"));
 
         public AddEmployeePage(IWebDriver driver) : base(driver)

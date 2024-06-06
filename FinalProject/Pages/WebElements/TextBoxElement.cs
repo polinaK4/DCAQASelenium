@@ -23,9 +23,5 @@ namespace FinalProject.Pages.WebElements
            element.SendKeys(text);
         }
 
-        //public void EnterText(string text)
-        //{
-        //    element.SendKeys(text);
-        //}
     }
 }
