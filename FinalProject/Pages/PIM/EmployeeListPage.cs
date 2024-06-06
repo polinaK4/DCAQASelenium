@@ -12,10 +12,9 @@ namespace FinalProject.Pages.PIM
         private ButtonElement _topbarConfigurationButton => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//span[.= 'Configuration ']"));
         private ButtonElement _topbarConfigurationCustomFieldsOption => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//a[.= 'Custom Fields']"));        
         private ButtonElement _topbarAddEmployeeButton => new ButtonElement(By.XPath("//*[@aria-label='Topbar Menu']//a[.= 'Add Employee']"));
-        private TextboxElement _employeeNameInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']//div[contains(@class,'oxd-grid-item')][1]//input"));
+        private TextboxWithHintElement _employeeNameInputField => new TextboxWithHintElement(By.XPath("//*[@class='oxd-form']//div[contains(@class,'oxd-grid-item')][1]//input"));
         private TextboxElement _employeeIdInputField => new TextboxElement(By.XPath("//*[@class='oxd-form']//div[contains(@class,'oxd-grid-item')][2]//input"));
         private ButtonElement _searchButton => new ButtonElement(By.XPath("//button[@type='submit']"));
-        private DropdownElement dropdown => new DropdownElement(By.XPath("//*[@class='oxd-form']"));
 
         public EmployeeListPage(IWebDriver driver) : base(driver)
         {
@@ -48,7 +47,7 @@ namespace FinalProject.Pages.PIM
             return new EmployeePersonalDetails(driver);
         }
 
-        public void SelectSpecificDropdownOption(string expectedText) => dropdown.ClickSpecificOption(expectedText);
+        public void SelectSpecificDropdownOption(string expectedText) => _employeeNameInputField.ClickSpecificOption(expectedText);
 
     }
 }

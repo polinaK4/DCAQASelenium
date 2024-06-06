@@ -20,20 +20,17 @@ namespace FinalProject.Helpers
             return element;
         }
 
-        public static PoliWebElement ToPoliWebElement(this IWebElement element)
-        {
-            return new PoliWebElement(element);
-        }
-
         public static List<PoliWebElement> GetPoliWebElementList(this IWebDriver driver, By by)
         {
             var result = driver.FindElements(by).Select(el => el.ToPoliWebElement()).ToList();
             return result;
         }
 
-        public static DropdownElement ToDropdownElement(this IWebElement element)
+        public static List<PoliWebElement> GetPoliWebElementList(this IWebDriver driver, By by, int expectedMinCount)
         {
-            return new DropdownElement(element);
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(drv => drv.FindElements(by).Count >= expectedMinCount);
+            return driver.FindElements(by).Select(el => el.ToPoliWebElement()).ToList(); ;
         }
 
         public static List<DropdownElement> GetDropdownElementList(this IWebDriver driver, By by, int expectedMinCount)
@@ -43,19 +40,12 @@ namespace FinalProject.Helpers
             return driver.FindElements(by).Select(el => el.ToDropdownElement()).ToList();            
         }
 
-        public static List<PoliWebElement> GetPoliWebElementList(this IWebDriver driver, By by, int expectedMinCount)
+        public static List<TextboxWithHintElement> GetTextboxWithHintElementList(this IWebDriver driver, By by, int expectedMinCount)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(drv => drv.FindElements(by).Count >= expectedMinCount);
-            return driver.FindElements(by).Select(el => el.ToPoliWebElement()).ToList();;
+            return driver.FindElements(by).Select(el => el.ToTextboxWithHintElement()).ToList();
         }
-
-        //public static PoliWebElement ScrollAndGetElement(this IWebDriver driver, By by)
-        //{
-        //    IWebElement element = driver.FindElement(by);
-        //    driver.ExecuteJavaScript("arguments[0].scrollIntoView(true);", element);
-        //    return element.ToPoliWebElement();
-        //}
 
         public static void WaitForElementCanBeSelected(this IWebDriver driver, PoliWebElement element, int timeoutInSeconds)
         {
@@ -75,6 +65,21 @@ namespace FinalProject.Helpers
                 ExpectedConditions.TextToBePresentInElement(element, expectedText);
                 return true;
             });
+        }
+
+        private static PoliWebElement ToPoliWebElement(this IWebElement element)
+        {
+            return new PoliWebElement(element);
+        }
+
+        private static DropdownElement ToDropdownElement(this IWebElement element)
+        {
+            return new DropdownElement(element);
+        }
+
+        private static TextboxWithHintElement ToTextboxWithHintElement(this IWebElement element)
+        {
+            return new TextboxWithHintElement(element);
         }
     }
 }
