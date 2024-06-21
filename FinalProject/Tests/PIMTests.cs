@@ -1,5 +1,4 @@
 ﻿using FinalProject.Pages.Login;
-using FinalProject.Pages.PIM;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using System.Drawing;
@@ -9,29 +8,22 @@ namespace FinalProject.Tests
 {
     public class PIMTests : BaseTest
     {
-        private LoginPage loginPage;
-        private LeftSideMenuBar leftSideMenuBar;
-        private EmployeeListPage employeeListPage;
-        private Header header;
-
         [SetUp]
         public void Setup()
         {
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
             driver.Manage().Window.Size = new Size(1024, 768);
-            loginPage = new LoginPage(driver);
-            leftSideMenuBar = new LeftSideMenuBar(driver);
-            employeeListPage = new EmployeeListPage(driver);
-            header = new Header(driver);
+            var loginPage = new LoginPage(driver);
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
             loginPage.ClickLoginButton();
-            leftSideMenuBar.ClickPimOption();
         }
 
         [Test]
         public void AddNewEmployee()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var employeeListPage = leftSideMenuBar.ClickPimOption();
             var addEmployeePage = employeeListPage.CliclAddEmployeeTab();
             addEmployeePage.EnterFirstName("Harry");
             addEmployeePage.EnterMiddleName("James");
@@ -44,6 +36,9 @@ namespace FinalProject.Tests
         [Test]
         public void SearchEmployee()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var header = new Header(driver);
+            var employeeListPage = leftSideMenuBar.ClickPimOption();
             employeeListPage.EnterEmployeeId("00392");
             employeeListPage.ClickSearchButton();
             ClassicAssert.Contains("00392", employeeListPage.grid.GetValuesOfSpecificColumn("Id"));
@@ -57,6 +52,9 @@ namespace FinalProject.Tests
         [Test]
         public void EditEmployeeDetails()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var header = new Header(driver);
+            var employeeListPage = leftSideMenuBar.ClickPimOption();
             employeeListPage.TypeToEmployeeNameForHint("timo");
             employeeListPage.SelectSpecificDropdownOption("Timothy Lewis Amiano");
             employeeListPage.ClickSearchButton();
@@ -72,6 +70,9 @@ namespace FinalProject.Tests
         [Test]
         public void DeleteEmployee()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var header = new Header(driver);
+            var employeeListPage = leftSideMenuBar.ClickPimOption();
             employeeListPage.EnterEmployeeId("5555");
             employeeListPage.ClickSearchButton();
             var confirmationPopup = employeeListPage.grid.ClickDeleteButtonForSpecificRecord("5555");
@@ -86,6 +87,8 @@ namespace FinalProject.Tests
         [Test]
         public void ValidateAddCustomFieldsToEmployeeProfile()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var employeeListPage = leftSideMenuBar.ClickPimOption();
             employeeListPage.ClickTopbarConfigurationButton();
             var customFieldsPage = employeeListPage.ClickCustomFieldsOption();
             var addCustomFieldsPage = customFieldsPage.ClickAddButton();
@@ -107,6 +110,8 @@ namespace FinalProject.Tests
         [Test]
         public void ValidateAssignSkillToEmployeeProfile()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var employeeListPage = leftSideMenuBar.ClickPimOption();
             employeeListPage.EnterEmployeeId("01715");
             employeeListPage.ClickSearchButton();
             var employeePersonalDetailsPage = employeeListPage.ClickEditButtonForSpecificEmployee("01715");

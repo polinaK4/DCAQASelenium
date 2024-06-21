@@ -1,5 +1,4 @@
 ﻿using FinalProject.Pages.Login;
-using FinalProject.Pages.Recruitment.Candidates;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using FinalProject.Pages.Modules;
@@ -8,26 +7,21 @@ namespace FinalProject.Tests
 {
     public class RecruitmentTests : BaseTest
     {
-        private LoginPage loginPage;
-        private LeftSideMenuBar leftSideMenuBar;
-        private RecruitmentCandidatesPage recruitmentCandidatesPage;
-
         [SetUp]
         public void Setup()
         {
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
-            loginPage = new LoginPage(driver);
-            leftSideMenuBar = new LeftSideMenuBar(driver);
-            recruitmentCandidatesPage = new RecruitmentCandidatesPage(driver);
+            var loginPage = new LoginPage(driver);
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
-            loginPage.ClickLoginButton();
-            leftSideMenuBar.ClickRecruitmentOption();
+            loginPage.ClickLoginButton();            
         }
 
         [Test]
         public void ValidateRecruitmentManagementFunctionality()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var recruitmentCandidatesPage = leftSideMenuBar.ClickRecruitmentOption();
             var recruitmentVacansiesPage = recruitmentCandidatesPage.ClickVacanciesPageButton();
             recruitmentVacansiesPage.VerifyVacanciesFormHeader("Vacancies");
             var addVacancyPage = recruitmentVacansiesPage.ClickAddButton();
@@ -50,6 +44,8 @@ namespace FinalProject.Tests
         [Test]
         public void ValidateCandidateManagementInRecruitmentFunctionality()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var recruitmentCandidatesPage = leftSideMenuBar.ClickRecruitmentOption();
             var addCandidatePage = recruitmentCandidatesPage.ClickAddCandidateButton();
             addCandidatePage.EnterFirstName("Politest");
             addCandidatePage.EnterMiddleName("Middle");

@@ -7,29 +7,27 @@ namespace FinalProject.Tests
 {
     public class DashboardTests : BaseTest
     {
-        private LoginPage loginPage;
-        private DashboardPage dashboardPage;
+        private DashboardPage _dashboardPage;
 
         [SetUp]
         public void Setup()
         {
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
-            loginPage = new LoginPage(driver);
-            dashboardPage = new DashboardPage(driver);
+            var loginPage = new LoginPage(driver);
+            _dashboardPage = loginPage.ClickLoginButton();
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
-            loginPage.ClickLoginButton();
         }
 
         [Test]
         public void ValidateDashboardAccess()
         {
-            ClassicAssert.AreEqual(true, dashboardPage.AssignLeaveQuickLaunchButtonEnabled());
-            ClassicAssert.AreEqual(true, dashboardPage.LeaveListQuickLaunchButtonEnabled());
-            ClassicAssert.AreEqual(true, dashboardPage.TimesheetsQuickLaunchButtonEnabled());
-            ClassicAssert.AreEqual(true, dashboardPage.ApplyLeaveQuickLaunchButtonEnabled());
-            ClassicAssert.AreEqual(true, dashboardPage.MyLeaveQuickLaunchButtonEnabled());
-            ClassicAssert.AreEqual(true, dashboardPage.MyTimesheetQuickLaunchButtonEnabled());
+            ClassicAssert.AreEqual(true, _dashboardPage.AssignLeaveQuickLaunchButtonEnabled());
+            ClassicAssert.AreEqual(true, _dashboardPage.LeaveListQuickLaunchButtonEnabled());
+            ClassicAssert.AreEqual(true, _dashboardPage.TimesheetsQuickLaunchButtonEnabled());
+            ClassicAssert.AreEqual(true, _dashboardPage.ApplyLeaveQuickLaunchButtonEnabled());
+            ClassicAssert.AreEqual(true, _dashboardPage.MyLeaveQuickLaunchButtonEnabled());
+            ClassicAssert.AreEqual(true, _dashboardPage.MyTimesheetQuickLaunchButtonEnabled());
         }
     }
 }

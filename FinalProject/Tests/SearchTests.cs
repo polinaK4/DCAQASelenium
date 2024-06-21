@@ -7,25 +7,21 @@ namespace FinalProject.Tests
 {
     public class SearchTests : BaseTest
     {
-        private LoginPage loginPage;
-        private LeftSideMenuBar leftSideMenuBar;
-        private Header header;
-
         [SetUp]
         public void Setup()
         {
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
-            loginPage = new LoginPage(driver);
-            leftSideMenuBar = new LeftSideMenuBar(driver);
+            var loginPage = new LoginPage(driver);
+            loginPage.EnterUsername("Admin");
+            loginPage.EnterPassword("admin123");
+            loginPage.ClickLoginButton();            
         }
 
         [Test]
         public void ValidateSearchFunctionality()
         {
-            header = new Header(driver);
-            loginPage.EnterUsername("Admin");
-            loginPage.EnterPassword("admin123");
-            loginPage.ClickLoginButton();
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var header = new Header(driver);
             leftSideMenuBar.EnterKeyWordToSearch("my");
             leftSideMenuBar.MenuOptionsTextToLower().ForEach(result => { StringAssert.Contains("my", result); });
             header.ClickUserProfileDropdown();

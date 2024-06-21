@@ -6,19 +6,16 @@ namespace FinalProject.Tests
 {
     public class LoginTests : BaseTest
     {
-        private LoginPage loginPage;
-        private Header header;
-
         [SetUp]
         public void Setup()
         {
-            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
-            loginPage = new LoginPage(driver);
+            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");            
         }
 
         [Test]
         public void ValidateSuccessfulLogin()
         {
+            var loginPage = new LoginPage(driver);
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
             loginPage.ClickLoginButton();
@@ -28,7 +25,8 @@ namespace FinalProject.Tests
         [Test]
         public void ValidateSuccessfulLogout()
         {
-            header = new Header(driver);
+            var loginPage = new LoginPage(driver);
+            var header = new Header(driver);
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
             loginPage.ClickLoginButton();
@@ -40,6 +38,7 @@ namespace FinalProject.Tests
         [Test]
         public void ResetPassword()
         {
+            var loginPage = new LoginPage(driver);
             var forgotpasswordPage = loginPage.ClickForgotPasswordButton();
             forgotpasswordPage.EnterUsername("test");
             forgotpasswordPage.ClickResetPasswordButton();

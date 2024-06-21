@@ -1,33 +1,27 @@
 ﻿using FinalProject.Pages.Login;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
-using FinalProject.Pages.Performance;
 using FinalProject.Pages.Modules;
 
 namespace FinalProject.Tests
 {
     public class PerformanceTests : BaseTest
     {
-        private LoginPage loginPage;
-        private LeftSideMenuBar leftSideMenuBar;
-        private PerformanceManageReviewsPage performanceManageReviewsPage;
-
         [SetUp]
         public void Setup()
         {
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
-            loginPage = new LoginPage(driver);
-            leftSideMenuBar = new LeftSideMenuBar(driver);
-            performanceManageReviewsPage = new PerformanceManageReviewsPage(driver);
+            var loginPage = new LoginPage(driver);
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
-            loginPage.ClickLoginButton();
-            leftSideMenuBar.ClickPerformanceOption();
+            loginPage.ClickLoginButton();            
         }
 
         [Test]
         public void ValidatePerformanceManagementFunctionality()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var performanceManageReviewsPage = leftSideMenuBar.ClickPerformanceOption();
             performanceManageReviewsPage.ClickConfigureDropdown();
             var performanceKpiPage = performanceManageReviewsPage.ClickKpiOption();
             var addKpiPage = performanceKpiPage.ClickAddButton();

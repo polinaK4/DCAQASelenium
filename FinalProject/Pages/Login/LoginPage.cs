@@ -1,4 +1,5 @@
 ﻿using FinalProject.Pages.Dashboard;
+using FinalProject.Pages.Modules;
 using FinalProject.Pages.WebElements;
 using OpenQA.Selenium;
 

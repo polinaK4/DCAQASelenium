@@ -9,27 +9,23 @@ namespace FinalProject.Tests
 {
     public class AdminPageTests : BaseTest
     {
-        private LoginPage loginPage;
-        private LeftSideMenuBar leftSideMenuBar;
-        private AdminUserManagementPage adminUserManagementPage;
 
         [SetUp]
         public void Setup()
         {
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
             driver.Manage().Window.Size = new Size(1024, 768);
-            loginPage = new LoginPage(driver);
-            leftSideMenuBar = new LeftSideMenuBar(driver);
-            adminUserManagementPage = new AdminUserManagementPage(driver);
+            var loginPage = new LoginPage(driver);          
             loginPage.EnterUsername("Admin");
             loginPage.EnterPassword("admin123");
             loginPage.ClickLoginButton();
-            leftSideMenuBar.ClickAdminOption();
         }
 
         [Test]
         public void ValidateAdminFunction()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var adminUserManagementPage = leftSideMenuBar.ClickAdminOption();
             ClassicAssert.AreEqual("User Management", adminUserManagementPage.GetFirstTabOptionText());
             adminUserManagementPage.ClickJobOption();
             ClassicAssert.Contains("Job Titles", adminUserManagementPage.GetJobDropdownOptionsTexts());
@@ -38,6 +34,8 @@ namespace FinalProject.Tests
         [Test]
         public void EditNationality()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var adminUserManagementPage = leftSideMenuBar.ClickAdminOption();
             adminUserManagementPage.ClickMoreOption();
             var nationalitiesPage = adminUserManagementPage.ClickNationalitiesOption();
             nationalitiesPage.VerifyVacanciesFormHeader("Nationalities");
@@ -50,6 +48,8 @@ namespace FinalProject.Tests
         [Test]
         public void AddJobTitle()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var adminUserManagementPage = leftSideMenuBar.ClickAdminOption();
             adminUserManagementPage.ClickJobOption();
             var jobTitlesPage = adminUserManagementPage.ClickJobTitlesOption();
             var addJobTitlePage = jobTitlesPage.ClickJobTitlesOption();
@@ -61,6 +61,8 @@ namespace FinalProject.Tests
         [Test]
         public void SearchAdmin()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var adminUserManagementPage = leftSideMenuBar.ClickAdminOption();
             adminUserManagementPage.EnterUsername("FMLName1");
             adminUserManagementPage.ClickSearchButton();
             var editUserPage = adminUserManagementPage.ClickEditButtonForSpecificUser("FMLName1");
@@ -73,6 +75,8 @@ namespace FinalProject.Tests
         [Test]
         public void ValidateJobTitlesManagementFunctionality()
         {
+            var leftSideMenuBar = new LeftSideMenuBar(driver);
+            var adminUserManagementPage = leftSideMenuBar.ClickAdminOption();
             adminUserManagementPage.ClickJobOption();
             var jobTitlesPage = adminUserManagementPage.ClickJobTitlesOption();
             var addJobTitlePage = jobTitlesPage.ClickJobTitlesOption();
